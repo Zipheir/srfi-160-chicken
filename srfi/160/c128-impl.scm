@@ -37,16 +37,20 @@
 (define c128vector-copy!
   (case-lambda
     ((to at from)
-     (c128vector-copy!* to at from 0 (c128vector-length from)))
+     (let ((to (##sys#slot to 1))
+           (from (##sys#slot from 1)))
+       (move-memory! from to (f64vector-length from) 0 (* at 16))))
     ((to at from start)
-     (c128vector-copy!* to at from start (c128vector-length from)))
-    ((to at from start end) (c128vector-copy!* to at from start end))))
-
-(define (c128vector-copy!* to at from start end)
-  (let loop ((at at) (i start))
-    (unless (= i end)
-      (c128vector-set! to at (c128vector-ref from i))
-      (loop (+ at 1) (+ i 1)))))
+     (let ((to (##sys#slot to 1))
+           (from (##sys#slot from 1)))
+       (move-memory! from to (f64vector-length from) (* start 16) (* at 16))))
+    ((to at from start end)
+     (let ((to (##sys#slot to 1))
+           (from (##sys#slot from 1)))
+       (move-memory! from to
+                     (* 16 (- end start))
+                     (* start 16)
+                     (* at 16))))))
 
 (define c128vector-reverse-copy
   (case-lambda

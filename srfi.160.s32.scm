@@ -1,9 +1,12 @@
+(declare (fixnum-arithmetic))
+
 (module (srfi 160 s32) ()
   (import (scheme))
   (import (only (chicken base)
     open-input-string include define-record-type case-lambda
     when unless let-values))
   (import (only (chicken module) export))
+  (import (only (chicken memory) move-memory!))
   (import (srfi 128))
   (import (srfi 160 base))
 

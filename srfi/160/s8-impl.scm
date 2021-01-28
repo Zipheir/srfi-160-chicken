@@ -37,16 +37,14 @@
 (define s8vector-copy!
   (case-lambda
     ((to at from)
-     (s8vector-copy!* to at from 0 (s8vector-length from)))
+     (move-memory! from to (s8vector-length from) 0 at))
     ((to at from start)
-     (s8vector-copy!* to at from start (s8vector-length from)))
-    ((to at from start end) (s8vector-copy!* to at from start end))))
-
-(define (s8vector-copy!* to at from start end)
-  (let loop ((at at) (i start))
-    (unless (= i end)
-      (s8vector-set! to at (s8vector-ref from i))
-      (loop (+ at 1) (+ i 1)))))
+     (move-memory! from to (s8vector-length from) start at))
+    ((to at from start end)
+     (move-memory! from to
+                   (- end start)
+                   start
+                   at))))
 
 (define s8vector-reverse-copy
   (case-lambda

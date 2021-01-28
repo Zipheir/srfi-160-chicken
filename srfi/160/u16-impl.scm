@@ -37,16 +37,14 @@
 (define u16vector-copy!
   (case-lambda
     ((to at from)
-     (u16vector-copy!* to at from 0 (u16vector-length from)))
+     (move-memory! from to (u16vector-length from) 0 (* at 2)))
     ((to at from start)
-     (u16vector-copy!* to at from start (u16vector-length from)))
-    ((to at from start end) (u16vector-copy!* to at from start end))))
-
-(define (u16vector-copy!* to at from start end)
-  (let loop ((at at) (i start))
-    (unless (= i end)
-      (u16vector-set! to at (u16vector-ref from i))
-      (loop (+ at 1) (+ i 1)))))
+     (move-memory! from to (u16vector-length from) (* start 2) (* at 2)))
+    ((to at from start end)
+     (move-memory! from to
+                   (* 2 (- end start))
+                   (* start 2)
+                   (* at 2)))))
 
 (define u16vector-reverse-copy
   (case-lambda

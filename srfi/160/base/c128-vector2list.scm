@@ -7,9 +7,9 @@
     ((vec start end) (c128vector->list* vec start end))))
 
 (define (c128vector->list* vec start end)
-  (let loop ((i (- end 1))
+  (let loop ((i (fx- end 1))
              (list '()))
-    (if (< i start)
+    (if (fx< i start)
       list
-      (loop (- i 1) (cons (c128vector-ref vec i) list)))))
+      (loop (fx- i 1) (cons (c128vector-ref vec i) list)))))
 

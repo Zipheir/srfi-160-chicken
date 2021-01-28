@@ -4,12 +4,19 @@
   (import (only (chicken module) export))
   (import (only (chicken bitwise) bitwise-and bitwise-ior
                            bitwise-not arithmetic-shift))
+  (import chicken.fixnum)
 
   ;; SRFI 4 versions of @vector->list don't accept start/end args
   (import (except (srfi 4)
     u8vector->list s8vector->list u16vector->list s16vector->list
     u32vector->list s32vector->list u64vector->list s64vector->list
     f32vector->list f64vector->list))
+  (import (prefix
+           (only srfi-4
+                 u8vector->list s8vector->list u16vector->list s16vector->list
+                 u32vector->list s32vector->list u64vector->list
+                 s64vector->list f32vector->list f64vector->list)
+           %))
 
   (define (exact-integer? x) (and (exact? x) (integer? x)))
   (export

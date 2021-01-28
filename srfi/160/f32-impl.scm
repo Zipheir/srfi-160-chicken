@@ -37,16 +37,14 @@
 (define f32vector-copy!
   (case-lambda
     ((to at from)
-     (f32vector-copy!* to at from 0 (f32vector-length from)))
+     (move-memory! from to (f32vector-length from) 0 (* at 4)))
     ((to at from start)
-     (f32vector-copy!* to at from start (f32vector-length from)))
-    ((to at from start end) (f32vector-copy!* to at from start end))))
-
-(define (f32vector-copy!* to at from start end)
-  (let loop ((at at) (i start))
-    (unless (= i end)
-      (f32vector-set! to at (f32vector-ref from i))
-      (loop (+ at 1) (+ i 1)))))
+     (move-memory! from to (f32vector-length from) (* start 4) (* at 4)))
+    ((to at from start end)
+     (move-memory! from to
+                   (* 4 (- end start))
+                   (* start 4)
+                   (* at 4)))))
 
 (define f32vector-reverse-copy
   (case-lambda

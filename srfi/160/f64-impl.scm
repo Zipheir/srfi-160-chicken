@@ -37,16 +37,14 @@
 (define f64vector-copy!
   (case-lambda
     ((to at from)
-     (f64vector-copy!* to at from 0 (f64vector-length from)))
+     (move-memory! from to (f64vector-length from) 0 (* at 8)))
     ((to at from start)
-     (f64vector-copy!* to at from start (f64vector-length from)))
-    ((to at from start end) (f64vector-copy!* to at from start end))))
-
-(define (f64vector-copy!* to at from start end)
-  (let loop ((at at) (i start))
-    (unless (= i end)
-      (f64vector-set! to at (f64vector-ref from i))
-      (loop (+ at 1) (+ i 1)))))
+     (move-memory! from to (f64vector-length from) (* start 8) (* at 8)))
+    ((to at from start end)
+     (move-memory! from to
+                   (* 8 (- end start))
+                   (* start 8)
+                   (* at 8)))))
 
 (define f64vector-reverse-copy
   (case-lambda
