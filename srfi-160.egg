@@ -9,16 +9,56 @@
  (test-dependencies test)
  (license "MIT")
  (components
-  (extension srfi.160.base (source "srfi-160.scm"))
-  (extension srfi.160.c64  (component-dependencies srfi.160.base))
-  (extension srfi.160.c128 (component-dependencies srfi.160.base))
-  (extension srfi.160.f32  (component-dependencies srfi.160.base))
-  (extension srfi.160.f64  (component-dependencies srfi.160.base))
-  (extension srfi.160.s8   (component-dependencies srfi.160.base))
-  (extension srfi.160.s16  (component-dependencies srfi.160.base))
-  (extension srfi.160.s32  (component-dependencies srfi.160.base))
-  (extension srfi.160.s64  (component-dependencies srfi.160.base))
-  (extension srfi.160.u8   (component-dependencies srfi.160.base))
-  (extension srfi.160.u16  (component-dependencies srfi.160.base))
-  (extension srfi.160.u32  (component-dependencies srfi.160.base))
-  (extension srfi.160.u64  (component-dependencies srfi.160.base))))
+  (extension srfi.160.base
+             (source "srfi-160.scm")
+             (source-dependencies "srfi/160/base/r7rec.scm"
+                                  "srfi/160/base/complex.scm"
+                                  "srfi/160/base/u8-vector2list.scm"
+                                  "srfi/160/base/s8-vector2list.scm"
+                                  "srfi/160/base/u16-vector2list.scm"
+                                  "srfi/160/base/s16-vector2list.scm"
+                                  "srfi/160/base/u32-vector2list.scm"
+                                  "srfi/160/base/s32-vector2list.scm"
+                                  "srfi/160/base/u64-vector2list.scm"
+                                  "srfi/160/base/s64-vector2list.scm"
+                                  "srfi/160/base/f32-vector2list.scm"
+                                  "srfi/160/base/f64-vector2list.scm"
+                                  "srfi/160/base/c64-vector2list.scm"
+                                  "srfi/160/base/c128-vector2list.scm"
+                                  "srfi/160/base/valid.scm"))
+  (extension srfi.160.c64
+             (component-dependencies srfi.160.base)
+             (source-dependencies "srfi/160/c64-impl.scm"))
+  (extension srfi.160.c128
+             (component-dependencies srfi.160.base)
+             (source-dependencies "srfi/160/c128-impl.scm"))
+  (extension srfi.160.f32
+             (component-dependencies srfi.160.base)
+             (source-dependencies "srfi/160/f32-impl.scm"))
+  (extension srfi.160.f64
+             (component-dependencies srfi.160.base)
+             (source-dependencies "srfi/160/f64-impl.scm"))
+  (extension srfi.160.s8
+             (component-dependencies srfi.160.base)
+             (source-dependencies "srfi/160/s8-impl.scm"))
+  (extension srfi.160.s16
+             (component-dependencies srfi.160.base)
+             (source-dependencies "srfi/160/s16-impl.scm"))
+  (extension srfi.160.s32
+             (component-dependencies srfi.160.base)
+             (source-dependencies "srfi/160/s32-impl.scm"))
+  (extension srfi.160.s64
+             (component-dependencies srfi.160.base)
+             (source-dependencies "srfi/160/s64-impl.scm"))
+  (extension srfi.160.u8
+             (component-dependencies srfi.160.base)
+             (source-dependencies "srfi/160/u8-impl.scm"))
+  (extension srfi.160.u16
+             (component-dependencies srfi.160.base)
+             (source-dependencies "srfi/160/u16-impl.scm"))
+  (extension srfi.160.u32
+             (component-dependencies srfi.160.base)
+             (source-dependencies "srfi/160/u32-impl.scm"))
+  (extension srfi.160.u64
+             (component-dependencies srfi.160.base)
+             (source-dependencies "srfi/160/u64-impl.scm"))))
