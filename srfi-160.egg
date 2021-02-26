@@ -1,7 +1,7 @@
 ;;; srfi-160.egg -*- Scheme -*- vim: ft=scheme:
 
-((author "")
- (maintainer "Sergey Goldgaber")
+((author "John Cowan, Shiro Kawai")
+ (maintainer "Diego A. Mundo")
  (synopsis "SRFI 160: Homogeneous numeric vector libraries")
  (version "0.1")
  (category lang-exts)
