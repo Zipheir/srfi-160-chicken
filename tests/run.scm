@@ -1,5 +1,5 @@
 (import scheme)
 (import (chicken base))
 
-(include "chicken-base-tests.scm")
-(include "chicken-tests.scm")
+(include-relative "chicken-base-tests.scm")
+(include-relative "chicken-tests.scm")
