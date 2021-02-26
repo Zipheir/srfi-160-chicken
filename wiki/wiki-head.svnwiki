@@ -1,0 +1,142 @@
+== SRFI-160: Homogeneous numeric vector libraries
+=== Abstract
+This SRFI describes a set of operations on [[https://srfi.schemers.org/srfi-4/srfi-4.html|SRFI 4]] homogeneous vector types (plus a few additional types) that are closely analogous to the vector operations library, [[https://srfi.schemers.org/srfi-133/srfi-133.html|SRFI 133]]. An external representation is specified which may be supported by the read and write procedures and by the program parser so that programs can contain references to literal homogeneous vectors.
+
+For more information see:  [[https://srfi.schemers.org/srfi-160/|SRFI-160: Homogeneous numeric vector libraries]]
+=== Rationale
+Like lists, Scheme vectors are a heterogeneous datatype which impose no restriction on the type of the elements. This generality is not needed for applications where all the elements are of the same type. The use of Scheme vectors is not ideal for such applications because, in the absence of a compiler with a fancy static analysis, the representation will typically use some form of boxing of the elements which means low space efficiency and slower access to the elements. Moreover, homogeneous vectors are convenient for interfacing with low-level libraries (e.g. binary block I/O) and to interface with foreign languages which support homogeneous vectors. Finally, the use of homogeneous vectors allows certain errors to be caught earlier.
+
+This SRFI specifies a set of homogeneous vector datatypes which cover the most practical cases, that is where the type of the elements is numeric (exact integer or inexact real or complex) and the precision and representation is efficiently implemented on the hardware of most current computer architectures (8, 16, 32 and 64 bit integers, either signed or unsigned, and 32 and 64 bit floating point numbers).
+
+This SRFI extends SRFI 4 by providing the additional {{c64vector}} and {{c128vector}} types, and by providing analogues for almost all of the heterogeneous vector procedures of SRFI 133. There are some additional procedures, most of which are closely analogous to the string procedures of [[https://srfi.schemers.org/srfi-152/srfi-152.html|SRFI 152]].
+
+Note that there are no conversions between homogeneous vectors and strings in this SRFI. In addition, there is no support for u1vectors (bitvectors) provided, not because they are not useful, but because they are different enough in both specification and implementation to be put into a future SRFI of their own.
+=== Specification
+There are eight datatypes of exact integer homogeneous vectors (which will be called integer vectors):
+
+* s8vector: signed exact integer in the range -2^7 to 2^7-1
+* u8vector: unsigned exact integer in the range 0 to 2^8-1
+* s16vector: signed exact integer in the range -2^15 to 2^15-1
+* u16vector: unsigned exact integer in the range 0 to 2^16-1
+* s32vector: signed exact integer in the range -2^31 to 2^31-1
+* u32vector: unsigned exact integer in the range 0 to 2^32-1
+* s64vector: signed exact integer in the range -2^63 to 2^63-1
+* u64vector: unsigned exact integer in the range 0 to 2^64-1
+
+All are part of SRFI 4.
+
+There are two datatypes of inexact real homogeneous vectors (which will be called ''float vectors''):
+
+* f32vector: inexact real, typically 32 bits
+* f64vector: inexact real, typically 64 bits
+
+These are also part of SRFI 4.
+
+{{f64vectors}} must preserve at least as much precision and range as {{f32vectors}}. (See the implementation section for details.)
+
+And there are two datatypes of inexact complex homogeneous vectors (which will be called complex vectors):
+
+<type>c64vector</type>
+
+inexact complex, typically 64 bits
+
+<type>c128vector</type>
+
+inexact complex, typically 128 bits
+
+These are not part of SRFI 4.
+
+{{c128vectors}} must preserve at least as much precision and range as {{c64vectors}}. (See the implementation section for details.)
+
+A Scheme system that conforms to this SRFI does not have to support all of these homogeneous vector datatypes. However, a Scheme system must support float vectors if it supports Scheme inexact reals (of any precision). A Scheme system must support complex vectors if it supports Scheme inexact complex numbers (of any precision). Finally, a Scheme system must support a particular integer vector datatype if the system's exact integer datatype contains all the values that can be stored in such an integer vector. Thus a Scheme system with bignum support must implement all the integer vector datatypes, but a Scheme system might only support {{s8vectors}}, {{u8vectors}}, {{s16vectors}} and u16vectors if it only supports integers in the range -2^29 to 2^29-1 (which would be the case if they are represented as 32-bit machine integers with a 2-bit tag).
+
+Scheme systems which conform to this SRFI and also conform to either R6RS or R7RS should use the same datatype for {{bytevectors}} and for {{u8vectors}}, and systems that also implement [[https://srfi.schemers.org/srfi-74/|SRFI 74]] (blobs) should use the same datatype for them as well. All other homogeneous vector types are disjoint from each other and from all other Scheme types,
+
+Each element of a homogeneous vector must be valid. That is, for an integer vector, it must be an exact integer within the inclusive range specified above; for a float vector, it must be an inexact real number; and for a complex vector, it must be an inexact complex number. It is an error to try to use a constructor or mutator to set an element to an invalid value.
+=== Notation
+So as not to multiply the number of procedures described in this SRFI beyond necessity, a special notational convention is used. The description of the procedure make-@vector is really shorthand for the descriptions of the twelve procedures {{make-s8vector}}, {{make-u8vector}}, ... {{make-c128vector}}, all of which are exactly the same except that they construct different homogeneous vector types. Furthermore, except as otherwise noted, the semantics of each procedure are those of the corresponding SRFI 133 procedure, except that it is an error to attempt to insert an invalid value into a homogeneous vector. Consequently, only a brief description of each procedure is given, and SRFI 133 (or in some cases SRFI 152) should be consulted for the details. It is worth mentioning, however, that all the procedures that return one or more vectors (homogeneous or heterogeneous) invariably return newly allocated vectors specifically.
+
+In the section containing specifications of procedures, the following notation is used to specify parameters and return values:
+
+<procedure>(f arg[1] arg[2] ...) -> something</procedure>
+
+A procedure {{f}} that takes the parameters {{arg[1] arg[2] ...}} and returns a value of the type something. If two values are returned, two types are specified. If something is unspecified, then {{f}} returns a single implementation-dependent value; this SRFI does not specify what it returns, and in order to write portable code, the return value should be ignored.
+
+<parameter>vec</parameter>
+
+Must be a heterogeneous vector, i.e. it must satisfy the predicate vector?.
+
+<parameter>@vec</parameter>
+
+<parameter>@to</parameter>
+
+<parameter>@from</parameter>
+
+Must be a homogeneous vector, i.e. it must satisfy the predicate {{@vector?}}. In {{@vector-copy!}} and {{reverse-@vector-copy!}}, {{@to}} is the destination and {{@from}} is the source.
+
+<parameter>i</parameter>
+
+<parameter>j</parameter>
+
+<parameter>start</parameter>
+
+<parameter>at</parameter>
+
+Must be an exact nonnegative integer less than the length of the {{@vector}}. In {{@vector-copy!}} and {{reverse-@vector-copy!}}, at refers to the destination and {{start}} to the source.
+
+<parameter>end</parameter>
+
+Must be an exact nonnegative integer not less than {{start}} and not greater than the length of the vector. This indicates the index directly before which traversal will stop -- processing will occur until the index of the vector is one less than {{end}}. It is the open right side of a range.
+
+<parameter>f</parameter>
+
+Must be a procedure taking one or more arguments, which returns (except as noted otherwise) exactly one value.
+
+<parameter>pred</parameter>
+
+Must be a procedure taking one or more arguments that returns one value, which is treated as a boolean.
+
+<parameter>=</parameter>
+
+Must be an equivalence procedure.
+
+<parameter>obj</parameter>
+
+<parameter>seed</parameter>
+
+<parameter>knil</parameter>
+
+Any Scheme object.
+
+<parameter>fill</parameter>
+
+<parameter>value</parameter>
+
+Any number that is valid with respect to the {{@vec}}.
+
+<parameter>[something]</parameter>
+
+An optional argument; it needn't necessarily be applied. Something needn't necessarily be one thing; for example, this usage of it is perfectly valid:
+
+ [start [end]]
+
+and is indeed used quite often.
+
+<parameter>something ...</parameter>
+
+Zero or more somethings are allowed to be arguments.
+
+<parameter>something[1] something[2] ...</parameter>
+
+At least one something must be arguments.
+=== Packaging
+For each {{@vector}} type, there is a corresponding library named (srfi 160 @), and if an implementation provides a given type, it must provide that library as well. In addition, the library (srfi 160 base) provides a few basic procedures for all {{@vector}} types. If a particular type is not provided by an implementation, then it is an error to call the corresponding procedures in this library. Note that there is no library named (srfi 160).
+
+=== Module (srfi 160 base)
+
+Defines {{make-@vector}}, {{@vector}}, {{@vector?}}, {{@vector-length}},
+{{@vector-ref}}, {{@vector-set!}}, {{@vector->list}}, {{list->@vector}}, and
+{{@?}}, for all types. All of these are also re-exported by the respective
+(srfi 160 @) modules and described below.
+
+
