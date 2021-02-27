@@ -1,5 +1,3 @@
-(declare (fixnum-arithmetic))
-
 (module (srfi 160 c128) ()
   (import (scheme))
   (import (only (chicken base)
@@ -7,6 +5,7 @@
     when unless let-values))
   (import (only (chicken module) export))
   (import (only (chicken memory) move-memory!))
+  (import (chicken fixnum))
   (import (srfi 128))
   (import (srfi 160 base))
 

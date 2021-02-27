@@ -8,19 +8,19 @@
 (define (u16vector-unfold f len seed)
   (let ((v (make-u16vector len)))
     (let loop ((i 0) (state seed))
-      (unless (= i len)
+      (unless (fx= i len)
         (let-values (((value newstate) (f i state)))
           (u16vector-set! v i value)
-          (loop (+ i 1) newstate))))
+          (loop (fx+ i 1) newstate))))
     v))
 
 (define (u16vector-unfold-right f len seed)
   (let ((v (make-u16vector len)))
-    (let loop ((i (- len 1)) (state seed))
-      (unless (= i -1)
+    (let loop ((i (fx- len 1)) (state seed))
+      (unless (fx= i -1)
         (let-values (((value newstate) (f i state)))
           (u16vector-set! v i value)
-          (loop (- i 1) newstate))))
+          (loop (fx- i 1) newstate))))
     v))
 
 (define u16vector-copy
@@ -30,21 +30,21 @@
     ((vec start end) (u16vector-copy* vec start end))))
 
 (define (u16vector-copy* vec start end)
-  (let ((v (make-u16vector (- end start))))
+  (let ((v (make-u16vector (fx- end start))))
     (u16vector-copy! v 0 vec start end)
     v))
 
 (define u16vector-copy!
   (case-lambda
     ((to at from)
-     (move-memory! from to (u16vector-length from) 0 (* at 2)))
+     (move-memory! from to (u16vector-length from) 0 (fx* at 2)))
     ((to at from start)
-     (move-memory! from to (u16vector-length from) (* start 2) (* at 2)))
+     (move-memory! from to (u16vector-length from) (fx* start 2) (fx* at 2)))
     ((to at from start end)
      (move-memory! from to
-                   (* 2 (- end start))
-                   (* start 2)
-                   (* at 2)))))
+                   (fx* 2 (fx- end start))
+                   (fx* start 2)
+                   (fx* at 2)))))
 
 (define u16vector-reverse-copy
   (case-lambda
@@ -53,7 +53,7 @@
     ((vec start end) (u16vector-reverse-copy* vec start end))))
 
 (define (u16vector-reverse-copy* vec start end)
-  (let ((v (make-u16vector (- end start))))
+  (let ((v (make-u16vector (fx- end start))))
     (u16vector-reverse-copy! v 0 vec start end)
     v))
 
@@ -66,10 +66,10 @@
     ((to at from start end) (u16vector-reverse-copy!* to at from start end))))
 
 (define (u16vector-reverse-copy!* to at from start end)
-  (let loop ((at at) (i (- end 1)))
-    (unless (< i start)
+  (let loop ((at at) (i (fx- end 1)))
+    (unless (fx< i start)
       (u16vector-set! to at (u16vector-ref from i))
-      (loop (+ at 1) (- i 1)))))
+      (loop (fx+ at 1) (fx- i 1)))))
 
 (define (u16vector-append . vecs)
   (u16vector-concatenate vecs))
@@ -80,13 +80,13 @@
       (unless (null? vecs)
         (let ((vec (car vecs)))
           (u16vector-copy! v at vec 0 (u16vector-length vec))
-          (loop (cdr vecs) (+ at (u16vector-length vec)))))
+          (loop (cdr vecs) (fx+ at (u16vector-length vec)))))
     v)))
 
 (define (len-sum vecs)
   (if (null? vecs)
     0
-    (+ (u16vector-length (car vecs))
+    (fx+ (u16vector-length (car vecs))
        (len-sum (cdr vecs)))))
 
 (define (u16vector-append-subvectors . args)
@@ -97,13 +97,13 @@
               (start (cadr args))
               (end (caddr args)))
           (u16vector-copy! v at vec start end)
-          (loop (cdddr args) (+ at (- end start))))))
+          (loop (cdddr args) (fx+ at (fx- end start))))))
     v))
 
 (define (len-subsum vecs)
   (if (null? vecs)
     0
-    (+ (- (caddr vecs) (cadr vecs))
+    (fx+ (fx- (caddr vecs) (cadr vecs))
        (len-subsum (cdddr vecs)))))
 
 ;; u16? defined in (srfi 160 base)
@@ -124,13 +124,13 @@
 
 (define (u16dyadic-vecs= vec1 start1 end1 vec2 start2 end2)
   (cond
-    ((not (= end1 end2)) #f)
-    ((not (< start1 end1)) #t)
+    ((not (fx= end1 end2)) #f)
+    ((not (fx< start1 end1)) #t)
     ((let ((elt1 (u16vector-ref vec1 start1))
            (elt2 (u16vector-ref vec2 start2)))
       (= elt1 elt2))
-     (u16dyadic-vecs= vec1 (+ start1 1) end1
-                         vec2 (+ start2 1) end2))
+     (u16dyadic-vecs= vec1 (fx+ start1 1) end1
+                         vec2 (fx+ start2 1) end2))
     (else #f)))
 
 ;; u16vector-ref defined in (srfi 160 base)
@@ -145,32 +145,32 @@
 (define (u16vector-take-right vec n)
   (let ((v (make-u16vector n))
         (len (u16vector-length vec)))
-    (u16vector-copy! v 0 vec (- len n) len)
+    (u16vector-copy! v 0 vec (fx- len n) len)
     v))
 
 (define (u16vector-drop vec n)
  (let* ((len (u16vector-length vec))
-        (vlen (- len n))
+        (vlen (fx- len n))
         (v (make-u16vector vlen)))
     (u16vector-copy! v 0 vec n len)
     v))
 
 (define (u16vector-drop-right vec n)
   (let* ((len (u16vector-length vec))
-         (rlen (- len n))
+         (rlen (fx- len n))
          (v (make-u16vector rlen)))
     (u16vector-copy! v 0 vec 0 rlen)
     v))
 
 (define (u16vector-segment vec n)
   (let loop ((r '()) (i 0) (remain (u16vector-length vec)))
-    (if (<= remain 0)
+    (if (fx<= remain 0)
       (reverse r)
       (let ((size (min n remain)))
         (loop
-          (cons (u16vector-copy vec i (+ i size)) r)
-          (+ i size)
-          (- remain size))))))
+          (cons (u16vector-copy vec i (fx+ i size)) r)
+          (fx+ i size)
+          (fx- remain size))))))
 
 ;; aux. procedure
 (define (%u16vectors-ref vecs i)
@@ -181,34 +181,34 @@
     ;; fast path
     (let ((len (u16vector-length vec)))
       (let loop ((r knil) (i 0))
-        (if (= i len)
+        (if (fx= i len)
           r
-          (loop (kons r (u16vector-ref vec i)) (+ i 1)))))
+          (loop (kons r (u16vector-ref vec i)) (fx+ i 1)))))
     ;; generic case
     (let* ((vecs (cons vec vecs))
            (len (apply min (map u16vector-length vecs))))
       (let loop ((r knil) (i 0))
-        (if (= i len)
+        (if (fx= i len)
           r
           (loop (apply kons r (%u16vectors-ref vecs i))
-                (+ i 1)))))))
+                (fx+ i 1)))))))
 
 (define (u16vector-fold-right kons knil vec . vecs)
   (if (null? vecs)
     ;; fast path
     (let ((len (u16vector-length vec)))
-      (let loop ((r knil) (i (- (u16vector-length vec) 1)))
+      (let loop ((r knil) (i (fx- (u16vector-length vec) 1)))
         (if (negative? i)
           r
-          (loop (kons r (u16vector-ref vec i)) (- i 1)))))
+          (loop (kons r (u16vector-ref vec i)) (fx- i 1)))))
     ;; generic case
     (let* ((vecs (cons vec vecs))
            (len (apply min (map u16vector-length vecs))))
-      (let loop ((r knil) (i (- len 1)))
+      (let loop ((r knil) (i (fx- len 1)))
         (if (negative? i)
           r
           (loop (apply kons r (%u16vectors-ref vecs i))
-                (- i 1)))))))
+                (fx- i 1)))))))
 
 (define (u16vector-map f vec . vecs)
   (if (null? vecs)
@@ -216,52 +216,52 @@
     (let* ((len (u16vector-length vec))
            (v (make-u16vector len)))
       (let loop ((i 0))
-        (unless (= i len)
+        (unless (fx= i len)
           (u16vector-set! v i (f (u16vector-ref vec i)))
-          (loop (+ i 1))))
+          (loop (fx+ i 1))))
       v)
     ;; generic case
     (let* ((vecs (cons vec vecs))
            (len (apply min (map u16vector-length vecs)))
            (v (make-u16vector len)))
       (let loop ((i 0))
-        (unless (= i len)
+        (unless (fx= i len)
           (u16vector-set! v i (apply f (%u16vectors-ref vecs i)))
-          (loop (+ i 1))))
+          (loop (fx+ i 1))))
       v)))
-    
+
 
 (define (u16vector-map! f vec . vecs)
   (if (null? vecs)
     ;; fast path
     (let ((len (u16vector-length vec)))
       (let loop ((i 0))
-        (unless (= i len)
+        (unless (fx= i len)
           (u16vector-set! vec i (f (u16vector-ref vec i)))
-          (loop (+ i 1)))))
+          (loop (fx+ i 1)))))
     ;; generic case
     (let* ((vecs (cons vec vecs))
            (len (apply min (map u16vector-length vecs))))
       (let loop ((i 0))
-        (unless (= i len)
+        (unless (fx= i len)
           (u16vector-set! vec i (apply f (%u16vectors-ref vecs i)))
-          (loop (+ i 1)))))))
+          (loop (fx+ i 1)))))))
 
 (define (u16vector-for-each f vec . vecs)
   (if (null? vecs)
     ;; fast path
     (let ((len (u16vector-length vec)))
       (let loop ((i 0))
-        (unless (= i len)
+        (unless (fx= i len)
           (f (u16vector-ref vec i))
-          (loop (+ i 1)))))
+          (loop (fx+ i 1)))))
     ;; generic case
     (let* ((vecs (cons vec vecs))
            (len (apply min (map u16vector-length vecs))))
       (let loop ((i 0))
-        (unless (= i len)
+        (unless (fx= i len)
           (apply f (%u16vectors-ref vecs i))
-          (loop (+ i 1)))))))
+          (loop (fx+ i 1)))))))
 
 (define (u16vector-count pred vec . vecs)
   (if (null? vecs)
@@ -269,34 +269,34 @@
     (let ((len (u16vector-length vec)))
       (let loop ((i 0) (r 0))
         (cond
-         ((= i (u16vector-length vec)) r)
-         ((pred (u16vector-ref vec i)) (loop (+ i 1) (+ r 1)))
-         (else (loop (+ i 1) r)))))
+         ((fx= i (u16vector-length vec)) r)
+         ((pred (u16vector-ref vec i)) (loop (fx+ i 1) (fx+ r 1)))
+         (else (loop (fx+ i 1) r)))))
     ;; generic case
     (let* ((vecs (cons vec vecs))
            (len (apply min (map u16vector-length vecs))))
       (let loop ((i 0) (r 0))
         (cond
-         ((= i len) r)
-         ((apply pred (%u16vectors-ref vecs i)) (loop (+ i 1) (+ r 1)))
-         (else (loop (+ i 1) r)))))))
+         ((fx= i len) r)
+         ((apply pred (%u16vectors-ref vecs i)) (loop (fx+ i 1) (fx+ r 1)))
+         (else (loop (fx+ i 1) r)))))))
 
 (define (u16vector-cumulate f knil vec)
   (let* ((len (u16vector-length vec))
          (v (make-u16vector len)))
     (let loop ((r knil) (i 0))
-      (unless (= i len)
+      (unless (fx= i len)
         (let ((next (f r (u16vector-ref vec i))))
           (u16vector-set! v i next)
-          (loop next (+ i 1)))))
+          (loop next (fx+ i 1)))))
     v))
 
 (define (u16vector-foreach f vec)
   (let ((len (u16vector-length vec)))
     (let loop ((i 0))
-      (unless (= i len)
+      (unless (fx= i len)
         (f (u16vector-ref vec i))
-        (loop (+ i 1))))))
+        (loop (fx+ i 1))))))
 
 (define (u16vector-take-while pred vec)
   (let* ((len (u16vector-length vec))
@@ -307,7 +307,7 @@
 (define (u16vector-take-while-right pred vec)
   (let* ((len (u16vector-length vec))
          (idx (u16vector-skip-right pred vec))
-         (idx* (if idx (+ idx 1) 0)))
+         (idx* (if idx (fx+ idx 1) 0)))
     (u16vector-copy vec idx* len)))
 
 (define (u16vector-drop-while pred vec)
@@ -320,7 +320,7 @@
   (let* ((len (u16vector-length vec))
          (idx (u16vector-skip-right pred vec))
          (idx* (if idx idx -1)))
-    (u16vector-copy vec 0 (+ 1 idx*))))
+    (u16vector-copy vec 0 (fx+ 1 idx*))))
 
 (define (u16vector-index pred vec . vecs)
   (if (null? vecs)
@@ -328,41 +328,41 @@
     (let ((len (u16vector-length vec)))
       (let loop ((i 0))
         (cond
-         ((= i len) #f)
+         ((fx= i len) #f)
          ((pred (u16vector-ref vec i)) i)
-         (else (loop (+ i 1))))))
+         (else (loop (fx+ i 1))))))
     ;; generic case
     (let* ((vecs (cons vec vecs))
            (len (apply min (map u16vector-length vecs))))
       (let loop ((i 0))
         (cond
-         ((= i len) #f)
+         ((fx= i len) #f)
          ((apply pred (%u16vectors-ref vecs i)) i)
-         (else (loop (+ i 1))))))))
+         (else (loop (fx+ i 1))))))))
 
 (define (u16vector-index-right pred vec . vecs)
   (if (null? vecs)
     ;; fast path
     (let ((len (u16vector-length vec)))
-      (let loop ((i (- len 1)))
+      (let loop ((i (fx- len 1)))
         (cond
          ((negative? i) #f)
          ((pred (u16vector-ref vec i)) i)
-         (else (loop (- i 1))))))
+         (else (loop (fx- i 1))))))
     ;; generic case
     (let* ((vecs (cons vec vecs))
            (len (apply min (map u16vector-length vecs))))
-      (let loop ((i (- len 1)))
+      (let loop ((i (fx- len 1)))
         (cond
          ((negative? i) #f)
          ((apply pred (%u16vectors-ref vecs i)) i)
-         (else (loop (- i 1))))))))
+         (else (loop (fx- i 1))))))))
 
 (define (u16vector-skip pred vec . vecs)
   (if (null? vecs)
     (u16vector-index (lambda (x) (not (pred x))) vec)
     (apply u16vector-index (lambda xs (not (apply pred xs))) vec vecs)))
-     
+
 (define (u16vector-skip-right pred vec . vecs)
   (if (null? vecs)
     (u16vector-index-right (lambda (x) (not (pred x))) vec)
@@ -374,17 +374,17 @@
     (let ((len (u16vector-length vec)))
       (let loop ((i 0))
         (cond
-         ((= i len) #f)
+         ((fx= i len) #f)
          ((pred (u16vector-ref vec i)))  ;returns result of pred
-         (else (loop (+ i 1))))))
+         (else (loop (fx+ i 1))))))
     ;; generic case
     (let* ((vecs (cons vec vecs))
            (len (apply min (map u16vector-length vecs))))
       (let loop ((i 0))
         (cond
-         ((= i len) #f)
+         ((fx= i len) #f)
          ((apply pred (%u16vectors-ref vecs i))) ;returns result of pred
-         (else (loop (+ i 1))))))))
+         (else (loop (fx+ i 1))))))))
 
 (define (u16vector-every pred vec . vecs)
   (if (null? vecs)
@@ -392,16 +392,16 @@
     (let ((len (u16vector-length vec)))
       (let loop ((i 0) (last #t))
         (cond
-         ((= i len) last)
-         ((pred (u16vector-ref vec i)) => (lambda (r) (loop (+ i 1) r)))
+         ((fx= i len) last)
+         ((pred (u16vector-ref vec i)) => (lambda (r) (loop (fx+ i 1) r)))
          (else #f))))
     ;; generic case
     (let* ((vecs (cons vec vecs))
            (len (apply min (map u16vector-length vecs))))
       (let loop ((i 0) (last #t))
         (cond
-         ((= i len) last)
-         ((apply pred (%u16vectors-ref vecs i)) => (lambda (r) (loop (+ i 1) r)))
+         ((fx= i len) last)
+         ((apply pred (%u16vectors-ref vecs i)) => (lambda (r) (loop (fx+ i 1) r)))
          (else #f))))))
 
 (define (u16vector-partition pred vec)
@@ -410,13 +410,13 @@
          (r (make-u16vector len)))
     (let loop ((i 0) (yes 0) (no cnt))
       (cond
-        ((= i len) r)
+        ((fx= i len) r)
         ((pred (u16vector-ref vec i))
          (u16vector-set! r yes (u16vector-ref vec i))
-         (loop (+ i 1) (+ yes 1) no))
+         (loop (fx+ i 1) (fx+ yes 1) no))
         (else
          (u16vector-set! r no (u16vector-ref vec i))
-         (loop (+ i 1) yes (+ no 1)))))))
+         (loop (fx+ i 1) yes (fx+ no 1)))))))
 
 (define (u16vector-filter pred vec)
   (let* ((len (u16vector-length vec))
@@ -424,12 +424,12 @@
          (r (make-u16vector cnt)))
     (let loop ((i 0) (j 0))
       (cond
-        ((= i len) r)
+        ((fx= i len) r)
         ((pred (u16vector-ref vec i))
          (u16vector-set! r j (u16vector-ref vec i))
-         (loop (+ i 1) (+ j 1)))
+         (loop (fx+ i 1) (fx+ j 1)))
         (else
-         (loop (+ i 1) j))))))
+         (loop (fx+ i 1) j))))))
 
 (define (u16vector-remove pred vec)
   (u16vector-filter (lambda (x) (not (pred x))) vec))
@@ -449,9 +449,9 @@
     ((vec fill start end) (u16vector-fill-some! vec fill start end))))
 
 (define (u16vector-fill-some! vec fill start end)
-  (unless (= start end)
+  (unless (fx= start end)
     (u16vector-set! vec start fill)
-    (u16vector-fill-some! vec fill (+ start 1) end)))
+    (u16vector-fill-some! vec fill (fx+ start 1) end)))
 
 (define u16vector-reverse!
   (case-lambda
@@ -460,24 +460,24 @@
     ((vec start end) (u16vector-reverse-some! vec start end))))
 
 (define (u16vector-reverse-some! vec start end)
-  (let loop ((i start) (j (- end 1)))
-    (when (< i j)
+  (let loop ((i start) (j (fx- end 1)))
+    (when (fx< i j)
       (u16vector-swap! vec i j)
-      (loop (+ i 1) (- j 1)))))
+      (loop (fx+ i 1) (fx- j 1)))))
 
 (define (u16vector-unfold! f vec start end seed)
   (let loop ((i start) (seed seed))
-    (when (< i end)
+    (when (fx< i end)
       (let-values (((elt seed) (f seed)))
         (u16vector-set! vec i elt)
-        (loop (+ i 1) seed)))))
+        (loop (fx+ i 1) seed)))))
 
 (define (u16vector-unfold-right! f vec start end seed)
-  (let loop ((i (- end 1)) (seed seed))
-    (when (>= i start)
+  (let loop ((i (fx- end 1)) (seed seed))
+    (when (fx>= i start)
       (let-values (((elt seed) (f seed)))
         (u16vector-set! vec i elt)
-        (loop (- i 1) seed)))))
+        (loop (fx- i 1) seed)))))
 
 (define reverse-u16vector->list
   (case-lambda
@@ -487,19 +487,19 @@
 
 (define (reverse-u16vector->list* vec start end)
   (let loop ((i start) (r '()))
-    (if (= i end)
+    (if (fx= i end)
       r
-      (loop (+ 1 i) (cons (u16vector-ref vec i) r)))))
+      (loop (fx+ 1 i) (cons (u16vector-ref vec i) r)))))
 
 (define (reverse-list->u16vector list)
   (let* ((len (length list))
          (r (make-u16vector len)))
     (let loop ((i 0) (list list))
       (cond
-        ((= i len) r)
+        ((fx= i len) r)
         (else
-          (u16vector-set! r (- len i 1) (car list))
-          (loop (+ i 1) (cdr list)))))))
+          (u16vector-set! r (fx- (fx- len i) 1) (car list))
+          (loop (fx+ i 1) (cdr list)))))))
 
 (define u16vector->vector
   (case-lambda
@@ -508,14 +508,14 @@
     ((vec start end) (u16vector->vector* vec start end))))
 
 (define (u16vector->vector* vec start end)
-  (let* ((len (- end start))
+  (let* ((len (fx- end start))
          (r (make-vector len)))
     (let loop ((i start) (o 0))
       (cond
-        ((= i end) r)
+        ((fx= i end) r)
         (else
           (vector-set! r o (u16vector-ref vec i))
-          (loop (+ i 1) (+ o 1)))))))
+          (loop (fx+ i 1) (fx+ o 1)))))))
 
 (define vector->u16vector
   (case-lambda
@@ -524,23 +524,23 @@
     ((vec start end) (vector->u16vector* vec start end))))
 
 (define (vector->u16vector* vec start end)
-  (let* ((len (- end start))
+  (let* ((len (fx- end start))
          (r (make-u16vector len)))
     (let loop ((i start) (o 0))
       (cond
-        ((= i end) r)
+        ((fx= i end) r)
         (else
           (u16vector-set! r o (vector-ref vec i))
-          (loop (+ i 1) (+ o 1)))))))
+          (loop (fx+ i 1) (fx+ o 1)))))))
 
 (define make-u16vector-generator
   (case-lambda ((vec) (make-u16vector-generator vec 0 (u16vector-length vec)))
                ((vec start) (make-u16vector-generator vec start (u16vector-length vec)))
                ((vec start end)
-                (lambda () (if (>= start end)
+                (lambda () (if (fx>= start end)
                              (eof-object)
                              (let ((next (u16vector-ref vec start)))
-                              (set! start (+ start 1))
+                              (set! start (fx+ start 1))
                               next))))))
 
 (define write-u16vector
@@ -551,44 +551,43 @@
 
 (define (write-u16vector* vec port)
   (display "#u16(" port)  ; u16-expansion is blind, so will expand this too
-  (let ((last (- (u16vector-length vec) 1)))
+  (let ((last (fx- (u16vector-length vec) 1)))
     (let loop ((i 0))
       (cond
-        ((= i last)
+        ((fx= i last)
          (write (u16vector-ref vec i) port)
          (display ")" port))
         (else
           (write (u16vector-ref vec i) port)
           (display " " port)
-          (loop (+ i 1)))))))
+          (loop (fx+ i 1)))))))
 
 (define (u16vector< vec1 vec2)
   (let ((len1 (u16vector-length vec1))
         (len2 (u16vector-length vec2)))
     (cond
-      ((< len1 len2)
+      ((fx< len1 len2)
        #t)
-      ((> len1 len2)
+      ((fx> len1 len2)
        #f)
       (else
        (let loop ((i 0))
          (cond
-           ((= i len1)
+           ((fx= i len1)
             #f)
            ((< (u16vector-ref vec1 i) (u16vector-ref vec2 i))
             #t)
            ((> (u16vector-ref vec1 i) (u16vector-ref vec2 i))
             #f)
            (else
-             (loop (+ i 1)))))))))
+             (loop (fx+ i 1)))))))))
 
 (define (u16vector-hash vec)
   (let ((len (min 256 (u16vector-length vec))))
     (let loop ((i 0) (r 0))
-      (if (= i len)
+      (if (fx= i len)
         (abs (floor (real-part (inexact->exact r))))
-        (loop (+ i 1) (+ r (u16vector-ref vec i)))))))
+        (loop (fx+ i 1) (+ r (u16vector-ref vec i)))))))
 
 (define u16vector-comparator
   (make-comparator u16vector? u16vector= u16vector< u16vector-hash))
-
