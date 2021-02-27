@@ -144,7 +144,7 @@
                                           s5 (@vector 0 1 2 5 4)))
       (test "multi-every" 10 (inexact->exact (@vector-every (lambda (x) (and (number? x) (* x 2))) s5)))
       (test "multi-every-2" 10 (inexact->exact (@vector-every (lambda (x y) (and (number? x) (number? y) (+ x y)))
-                                              s5 s5)))
+                                                              s5 s5)))
       (test-assert "multi-not every" (not (@vector-every < s5 (@vector 10 10 10 10 0))))
       (test-equiv "partition" '(1 3 5 2 4) (@vector-partition odd? s5))
       (test-equiv "filter" '(1 3 5) (@vector-filter odd? s5))
