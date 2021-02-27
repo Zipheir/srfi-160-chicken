@@ -6,7 +6,7 @@
  (version "0.1")
  (category lang-exts)
  (dependencies srfi-128)
- (test-dependencies test)
+ (test-dependencies test srfi-128 srfi-133)
  (license "MIT")
  (components
   (extension srfi.160.base
