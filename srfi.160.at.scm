@@ -10,7 +10,7 @@
   (import (srfi 160 base))
 
   ;; Constructors
-  (export make-@vector @vector
+  (export make-@vector @vector &body
           @vector-unfold @vector-unfold-right
           @vector-copy @vector-reverse-copy
           @vector-append @vector-concatenate

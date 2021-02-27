@@ -10,7 +10,7 @@
   (import (srfi 160 base))
 
   ;; Constructors
-  (export make-s64vector s64vector
+  (export make-s64vector s64vector 
           s64vector-unfold s64vector-unfold-right
           s64vector-copy s64vector-reverse-copy
           s64vector-append s64vector-concatenate

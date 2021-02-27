@@ -10,7 +10,7 @@
   (import (srfi 160 base))
 
   ;; Constructors
-  (export make-c128vector c128vector
+  (export make-c128vector c128vector c128vector-body
           c128vector-unfold c128vector-unfold-right
           c128vector-copy c128vector-reverse-copy
           c128vector-append c128vector-concatenate

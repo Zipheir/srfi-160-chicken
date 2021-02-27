@@ -10,7 +10,7 @@
   (import (srfi 160 base))
 
   ;; Constructors
-  (export make-u32vector u32vector
+  (export make-u32vector u32vector 
           u32vector-unfold u32vector-unfold-right
           u32vector-copy u32vector-reverse-copy
           u32vector-append u32vector-concatenate

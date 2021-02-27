@@ -47,22 +47,22 @@
 ;; Length
 
 (define (c64vector-length vec)
-  (fx/ (f32vector-length (bv64 vec)) 2))
+  (fx/ (f32vector-length (c64vector-body vec)) 2))
 
 (define (c128vector-length vec)
-  (fx/ (f64vector-length (bv128 vec)) 2))
+  (fx/ (f64vector-length (c128vector-body vec)) 2))
 
 ;; Get element
 
 (define (c64vector-ref vec i)
-  (let ((fvec (bv64 vec))
+  (let ((fvec (c64vector-body vec))
         (j (fx* i 2)))
     (make-rectangular
       (f32vector-ref fvec j)
       (f32vector-ref fvec (fx+ j 1)))))
 
 (define (c128vector-ref vec i)
-  (let ((fvec (bv128 vec))
+  (let ((fvec (c128vector-body vec))
         (j (fx* i 2)))
     (make-rectangular
       (f64vector-ref fvec j)
@@ -71,13 +71,13 @@
 ;; Set element
 
 (define (c64vector-set! vec i value)
-  (let ((fvec (bv64 vec))
+  (let ((fvec (c64vector-body vec))
         (j (fx* i 2)))
     (f32vector-set! fvec j (real-part value))
     (f32vector-set! fvec (fx+ j 1) (imag-part value))))
 
 (define (c128vector-set! vec i value)
-  (let ((fvec (bv128 vec))
+  (let ((fvec (c128vector-body vec))
         (j (fx* i 2)))
     (f64vector-set! fvec j (real-part value))
     (f64vector-set! fvec (fx+ j 1) (imag-part value))))

@@ -27,10 +27,11 @@
     u8vector s8vector u16vector s16vector
     u32vector s32vector u64vector s64vector
     f32vector f64vector c64vector c128vector )
+  (export c64vector-body c128vector-body)
   (export
     u8vector? s8vector? u16vector? s16vector?
     u32vector? s32vector? u64vector? s64vector?
-    f32vector? f64vector? c64vector? c128vector?) 
+    f32vector? f64vector? c64vector? c128vector?)
   (export
     u8vector-length s8vector-length u16vector-length s16vector-length
     u32vector-length s32vector-length u64vector-length s64vector-length

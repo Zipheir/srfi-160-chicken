@@ -37,11 +37,11 @@
 (define c128vector-copy!
   (case-lambda
     ((to at from)
-     (move-memory! (##sys#slot from 1) (##sys#slot to 1) (c128vector-length (##sys#slot from 1)) 0 (fx* at 16)))
+     (move-memory! (c128vector-body from) (c128vector-body to) (c128vector-length (c128vector-body from)) 0 (fx* at 16)))
     ((to at from start)
-     (move-memory! (##sys#slot from 1) (##sys#slot to 1) (c128vector-length (##sys#slot from 1)) (fx* start 16) (fx* at 16)))
+     (move-memory! (c128vector-body from) (c128vector-body to) (c128vector-length (c128vector-body from)) (fx* start 16) (fx* at 16)))
     ((to at from start end)
-     (move-memory! (##sys#slot from 1) (##sys#slot to 1)
+     (move-memory! (c128vector-body from) (c128vector-body to)
                    (fx* 16 (fx- end start))
                    (fx* start 16)
                    (fx* at 16)))))
