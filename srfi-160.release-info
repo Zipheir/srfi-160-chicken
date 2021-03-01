@@ -1,6 +1,7 @@
 (repo git "https://code.dieggsy.com/{egg-name}")
 
 (uri targz "https://code.dieggsy.com/{egg-name}/snapshot/{egg-name}-{egg-release}.tar.gz")
+(release "0.5")
 (release "0.4")
 (release "0.3")
 (release "0.2")

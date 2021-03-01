@@ -574,6 +574,7 @@ SOFTWARE.
 
 === Version history
 
+; 0.5 : Optimize performance using fixnum operations and move-memory!
 ; 0.4 : Fix bugs in {{@vector-fold-right}} and {{@vector-reverse!}}
 ; 0.3 : Ensure correct result for {{@vector=}} with more than 2 vectors
 ; 0.2 : Ensure {{start}} and {{end}} arguments to {{copy!}} procedures are optional
