@@ -121,9 +121,9 @@ is used to specify parameters and return values:
 
 ; {{@vec}}, {{@to}}, {{@from}} : Must be a homogeneous vector, i.e. it must satisfy the predicate {{@vector?}}. In {{@vector-copy!}} and {{reverse-@vector-copy!}}, {{@to}} is the destination and {{@from}} is the source.
 
-; {{i}}, {{j}}, {{start}}, {{at}} : Must be an exact nonnegative integer less than the length of the {{@vector}}. In {{@vector-copy!}} and {{reverse-@vector-copy!}}, at refers to the destination and {{start}} to the source.
+; {{i}}, {{j}}, {{start}}, {{at}} : Must be an exact-nonnegative-integer less than the length of the {{@vector}}. In {{@vector-copy!}} and {{reverse-@vector-copy!}}, at refers to the destination and {{start}} to the source.
 
-; {{end}} : Must be an exact nonnegative integer not less than {{start}} and not greater than the length of the vector. This indicates the index directly before which traversal will stop -- processing will occur until the index of the vector is one less than {{end}}. It is the open right side of a range.
+; {{end}} : Must be an exact-nonnegative-integer not less than {{start}} and not greater than the length of the vector. This indicates the index directly before which traversal will stop -- processing will occur until the index of the vector is one less than {{end}}. It is the open right side of a range.
 
 ; {{f}} : Must be a procedure taking one or more arguments, which returns (except as noted otherwise) exactly one value.
 
@@ -585,18 +585,18 @@ returns may be mutated.
 
 [[https://wiki.call-cc.org/eggref/5/srfi-133#iteration|SRFI 133]]
 
-<procedure>(u8vector-count pred? @vec @vec2 ...) -> exact nonnegative integer</procedure>
-<procedure>(s8vector-count pred? @vec @vec2 ...) -> exact nonnegative integer</procedure>
-<procedure>(u16vector-count pred? @vec @vec2 ...) -> exact nonnegative integer</procedure>
-<procedure>(s16vector-count pred? @vec @vec2 ...) -> exact nonnegative integer</procedure>
-<procedure>(u32vector-count pred? @vec @vec2 ...) -> exact nonnegative integer</procedure>
-<procedure>(s32vector-count pred? @vec @vec2 ...) -> exact nonnegative integer</procedure>
-<procedure>(u64vector-count pred? @vec @vec2 ...) -> exact nonnegative integer</procedure>
-<procedure>(s64vector-count pred? @vec @vec2 ...) -> exact nonnegative integer</procedure>
-<procedure>(f32vector-count pred? @vec @vec2 ...) -> exact nonnegative integer</procedure>
-<procedure>(f64vector-count pred? @vec @vec2 ...) -> exact nonnegative integer</procedure>
-<procedure>(c64vector-count pred? @vec @vec2 ...) -> exact nonnegative integer</procedure>
-<procedure>(c128vector-count pred? @vec @vec2 ...) -> exact nonnegative integer</procedure>
+<procedure>(u8vector-count pred? @vec @vec2 ...) -> exact-nonnegative-integer</procedure>
+<procedure>(s8vector-count pred? @vec @vec2 ...) -> exact-nonnegative-integer</procedure>
+<procedure>(u16vector-count pred? @vec @vec2 ...) -> exact-nonnegative-integer</procedure>
+<procedure>(s16vector-count pred? @vec @vec2 ...) -> exact-nonnegative-integer</procedure>
+<procedure>(u32vector-count pred? @vec @vec2 ...) -> exact-nonnegative-integer</procedure>
+<procedure>(s32vector-count pred? @vec @vec2 ...) -> exact-nonnegative-integer</procedure>
+<procedure>(u64vector-count pred? @vec @vec2 ...) -> exact-nonnegative-integer</procedure>
+<procedure>(s64vector-count pred? @vec @vec2 ...) -> exact-nonnegative-integer</procedure>
+<procedure>(f32vector-count pred? @vec @vec2 ...) -> exact-nonnegative-integer</procedure>
+<procedure>(f64vector-count pred? @vec @vec2 ...) -> exact-nonnegative-integer</procedure>
+<procedure>(c64vector-count pred? @vec @vec2 ...) -> exact-nonnegative-integer</procedure>
+<procedure>(c128vector-count pred? @vec @vec2 ...) -> exact-nonnegative-integer</procedure>
 
 Call {{pred?}} on each element of {{@vec}} and return the number of calls that
 return true.
@@ -687,30 +687,30 @@ satisfy pred.
 
 [[https://wiki.call-cc.org/eggref/5/srfi-152#searching|SRFI 152]]
 
-<procedure>(u8vector-index pred? @vec @vec2 ...) -> exact nonnegative integer or #f</procedure>
-<procedure>(s8vector-index pred? @vec @vec2 ...) -> exact nonnegative integer or #f</procedure>
-<procedure>(u16vector-index pred? @vec @vec2 ...) -> exact nonnegative integer or #f</procedure>
-<procedure>(s16vector-index pred? @vec @vec2 ...) -> exact nonnegative integer or #f</procedure>
-<procedure>(u32vector-index pred? @vec @vec2 ...) -> exact nonnegative integer or #f</procedure>
-<procedure>(s32vector-index pred? @vec @vec2 ...) -> exact nonnegative integer or #f</procedure>
-<procedure>(u64vector-index pred? @vec @vec2 ...) -> exact nonnegative integer or #f</procedure>
-<procedure>(s64vector-index pred? @vec @vec2 ...) -> exact nonnegative integer or #f</procedure>
-<procedure>(f32vector-index pred? @vec @vec2 ...) -> exact nonnegative integer or #f</procedure>
-<procedure>(f64vector-index pred? @vec @vec2 ...) -> exact nonnegative integer or #f</procedure>
-<procedure>(c64vector-index pred? @vec @vec2 ...) -> exact nonnegative integer or #f</procedure>
-<procedure>(c128vector-index pred? @vec @vec2 ...) -> exact nonnegative integer or #f</procedure>
-<procedure>(u8vector-index-right pred? @vec @vec2 ...) -> exact nonnegative integer or #f </procedure>
-<procedure>(s8vector-index-right pred? @vec @vec2 ...) -> exact nonnegative integer or #f </procedure>
-<procedure>(u16vector-index-right pred? @vec @vec2 ...) -> exact nonnegative integer or #f </procedure>
-<procedure>(s16vector-index-right pred? @vec @vec2 ...) -> exact nonnegative integer or #f </procedure>
-<procedure>(u32vector-index-right pred? @vec @vec2 ...) -> exact nonnegative integer or #f </procedure>
-<procedure>(s32vector-index-right pred? @vec @vec2 ...) -> exact nonnegative integer or #f </procedure>
-<procedure>(u64vector-index-right pred? @vec @vec2 ...) -> exact nonnegative integer or #f </procedure>
-<procedure>(s64vector-index-right pred? @vec @vec2 ...) -> exact nonnegative integer or #f </procedure>
-<procedure>(f32vector-index-right pred? @vec @vec2 ...) -> exact nonnegative integer or #f </procedure>
-<procedure>(f64vector-index-right pred? @vec @vec2 ...) -> exact nonnegative integer or #f </procedure>
-<procedure>(c64vector-index-right pred? @vec @vec2 ...) -> exact nonnegative integer or #f </procedure>
-<procedure>(c128vector-index-right pred? @vec @vec2 ...) -> exact nonnegative integer or #f </procedure>
+<procedure>(u8vector-index pred? @vec @vec2 ...) -> (or exact-nonnegative-integer #f)</procedure>
+<procedure>(s8vector-index pred? @vec @vec2 ...) -> (or exact-nonnegative-integer #f)</procedure>
+<procedure>(u16vector-index pred? @vec @vec2 ...) -> (or exact-nonnegative-integer #f)</procedure>
+<procedure>(s16vector-index pred? @vec @vec2 ...) -> (or exact-nonnegative-integer #f)</procedure>
+<procedure>(u32vector-index pred? @vec @vec2 ...) -> (or exact-nonnegative-integer #f)</procedure>
+<procedure>(s32vector-index pred? @vec @vec2 ...) -> (or exact-nonnegative-integer #f)</procedure>
+<procedure>(u64vector-index pred? @vec @vec2 ...) -> (or exact-nonnegative-integer #f)</procedure>
+<procedure>(s64vector-index pred? @vec @vec2 ...) -> (or exact-nonnegative-integer #f)</procedure>
+<procedure>(f32vector-index pred? @vec @vec2 ...) -> (or exact-nonnegative-integer #f)</procedure>
+<procedure>(f64vector-index pred? @vec @vec2 ...) -> (or exact-nonnegative-integer #f)</procedure>
+<procedure>(c64vector-index pred? @vec @vec2 ...) -> (or exact-nonnegative-integer #f)</procedure>
+<procedure>(c128vector-index pred? @vec @vec2 ...) -> (or exact-nonnegative-integer #f)</procedure>
+<procedure>(u8vector-index-right pred? @vec @vec2 ...) -> (or exact-nonnegative-integer #f) </procedure>
+<procedure>(s8vector-index-right pred? @vec @vec2 ...) -> (or exact-nonnegative-integer #f) </procedure>
+<procedure>(u16vector-index-right pred? @vec @vec2 ...) -> (or exact-nonnegative-integer #f) </procedure>
+<procedure>(s16vector-index-right pred? @vec @vec2 ...) -> (or exact-nonnegative-integer #f) </procedure>
+<procedure>(u32vector-index-right pred? @vec @vec2 ...) -> (or exact-nonnegative-integer #f) </procedure>
+<procedure>(s32vector-index-right pred? @vec @vec2 ...) -> (or exact-nonnegative-integer #f) </procedure>
+<procedure>(u64vector-index-right pred? @vec @vec2 ...) -> (or exact-nonnegative-integer #f) </procedure>
+<procedure>(s64vector-index-right pred? @vec @vec2 ...) -> (or exact-nonnegative-integer #f) </procedure>
+<procedure>(f32vector-index-right pred? @vec @vec2 ...) -> (or exact-nonnegative-integer #f) </procedure>
+<procedure>(f64vector-index-right pred? @vec @vec2 ...) -> (or exact-nonnegative-integer #f) </procedure>
+<procedure>(c64vector-index-right pred? @vec @vec2 ...) -> (or exact-nonnegative-integer #f) </procedure>
+<procedure>(c128vector-index-right pred? @vec @vec2 ...) -> (or exact-nonnegative-integer #f) </procedure>
 
 Return the index of the first/last element of {{@vec}} that satisfies
 {{pred?}}.
@@ -723,30 +723,30 @@ vectors must be the same for {{@vector-index-right}}.
 
 [[https://wiki.call-cc.org/eggref/5/srfi-133#searching|SRFI 133]]
 
-<procedure>(u8vector-skip pred? @vec @vec2 ...) -> exact nonnegative integer or #f</procedure>
-<procedure>(s8vector-skip pred? @vec @vec2 ...) -> exact nonnegative integer or #f</procedure>
-<procedure>(u16vector-skip pred? @vec @vec2 ...) -> exact nonnegative integer or #f</procedure>
-<procedure>(s16vector-skip pred? @vec @vec2 ...) -> exact nonnegative integer or #f</procedure>
-<procedure>(u32vector-skip pred? @vec @vec2 ...) -> exact nonnegative integer or #f</procedure>
-<procedure>(s32vector-skip pred? @vec @vec2 ...) -> exact nonnegative integer or #f</procedure>
-<procedure>(u64vector-skip pred? @vec @vec2 ...) -> exact nonnegative integer or #f</procedure>
-<procedure>(s64vector-skip pred? @vec @vec2 ...) -> exact nonnegative integer or #f</procedure>
-<procedure>(f32vector-skip pred? @vec @vec2 ...) -> exact nonnegative integer or #f</procedure>
-<procedure>(f64vector-skip pred? @vec @vec2 ...) -> exact nonnegative integer or #f</procedure>
-<procedure>(c64vector-skip pred? @vec @vec2 ...) -> exact nonnegative integer or #f</procedure>
-<procedure>(c128vector-skip pred? @vec @vec2 ...) -> exact nonnegative integer or #f</procedure>
-<procedure>(u8vector-skip-right pred? @vec @vec2 ...) -> exact nonnegative integer or #f</procedure>
-<procedure>(s8vector-skip-right pred? @vec @vec2 ...) -> exact nonnegative integer or #f</procedure>
-<procedure>(u16vector-skip-right pred? @vec @vec2 ...) -> exact nonnegative integer or #f</procedure>
-<procedure>(s16vector-skip-right pred? @vec @vec2 ...) -> exact nonnegative integer or #f</procedure>
-<procedure>(u32vector-skip-right pred? @vec @vec2 ...) -> exact nonnegative integer or #f</procedure>
-<procedure>(s32vector-skip-right pred? @vec @vec2 ...) -> exact nonnegative integer or #f</procedure>
-<procedure>(u64vector-skip-right pred? @vec @vec2 ...) -> exact nonnegative integer or #f</procedure>
-<procedure>(s64vector-skip-right pred? @vec @vec2 ...) -> exact nonnegative integer or #f</procedure>
-<procedure>(f32vector-skip-right pred? @vec @vec2 ...) -> exact nonnegative integer or #f</procedure>
-<procedure>(f64vector-skip-right pred? @vec @vec2 ...) -> exact nonnegative integer or #f</procedure>
-<procedure>(c64vector-skip-right pred? @vec @vec2 ...) -> exact nonnegative integer or #f</procedure>
-<procedure>(c128vector-skip-right pred? @vec @vec2 ...) -> exact nonnegative integer or #f</procedure>
+<procedure>(u8vector-skip pred? @vec @vec2 ...) -> (or exact-nonnegative-integer #f)</procedure>
+<procedure>(s8vector-skip pred? @vec @vec2 ...) -> (or exact-nonnegative-integer #f)</procedure>
+<procedure>(u16vector-skip pred? @vec @vec2 ...) -> (or exact-nonnegative-integer #f)</procedure>
+<procedure>(s16vector-skip pred? @vec @vec2 ...) -> (or exact-nonnegative-integer #f)</procedure>
+<procedure>(u32vector-skip pred? @vec @vec2 ...) -> (or exact-nonnegative-integer #f)</procedure>
+<procedure>(s32vector-skip pred? @vec @vec2 ...) -> (or exact-nonnegative-integer #f)</procedure>
+<procedure>(u64vector-skip pred? @vec @vec2 ...) -> (or exact-nonnegative-integer #f)</procedure>
+<procedure>(s64vector-skip pred? @vec @vec2 ...) -> (or exact-nonnegative-integer #f)</procedure>
+<procedure>(f32vector-skip pred? @vec @vec2 ...) -> (or exact-nonnegative-integer #f)</procedure>
+<procedure>(f64vector-skip pred? @vec @vec2 ...) -> (or exact-nonnegative-integer #f)</procedure>
+<procedure>(c64vector-skip pred? @vec @vec2 ...) -> (or exact-nonnegative-integer #f)</procedure>
+<procedure>(c128vector-skip pred? @vec @vec2 ...) -> (or exact-nonnegative-integer #f)</procedure>
+<procedure>(u8vector-skip-right pred? @vec @vec2 ...) -> (or exact-nonnegative-integer #f)</procedure>
+<procedure>(s8vector-skip-right pred? @vec @vec2 ...) -> (or exact-nonnegative-integer #f)</procedure>
+<procedure>(u16vector-skip-right pred? @vec @vec2 ...) -> (or exact-nonnegative-integer #f)</procedure>
+<procedure>(s16vector-skip-right pred? @vec @vec2 ...) -> (or exact-nonnegative-integer #f)</procedure>
+<procedure>(u32vector-skip-right pred? @vec @vec2 ...) -> (or exact-nonnegative-integer #f)</procedure>
+<procedure>(s32vector-skip-right pred? @vec @vec2 ...) -> (or exact-nonnegative-integer #f)</procedure>
+<procedure>(u64vector-skip-right pred? @vec @vec2 ...) -> (or exact-nonnegative-integer #f)</procedure>
+<procedure>(s64vector-skip-right pred? @vec @vec2 ...) -> (or exact-nonnegative-integer #f)</procedure>
+<procedure>(f32vector-skip-right pred? @vec @vec2 ...) -> (or exact-nonnegative-integer #f)</procedure>
+<procedure>(f64vector-skip-right pred? @vec @vec2 ...) -> (or exact-nonnegative-integer #f)</procedure>
+<procedure>(c64vector-skip-right pred? @vec @vec2 ...) -> (or exact-nonnegative-integer #f)</procedure>
+<procedure>(c128vector-skip-right pred? @vec @vec2 ...) -> (or exact-nonnegative-integer #f)</procedure>
 
 Returns the index of the first/last element of {{@vec}} that does not satisfy
 {{pred?}}.
@@ -759,18 +759,18 @@ vectors must be the same for {{@vector-skip-right}}.
 
 [[https://wiki.call-cc.org/eggref/5/srfi-133#searching|SRFI 133]]
 
-<procedure>(u8vector-any pred? @vec @vec2 ...) -> value or boolean</procedure>
-<procedure>(s8vector-any pred? @vec @vec2 ...) -> value or boolean</procedure>
-<procedure>(u16vector-any pred? @vec @vec2 ...) -> value or boolean</procedure>
-<procedure>(s16vector-any pred? @vec @vec2 ...) -> value or boolean</procedure>
-<procedure>(u32vector-any pred? @vec @vec2 ...) -> value or boolean</procedure>
-<procedure>(s32vector-any pred? @vec @vec2 ...) -> value or boolean</procedure>
-<procedure>(u64vector-any pred? @vec @vec2 ...) -> value or boolean</procedure>
-<procedure>(s64vector-any pred? @vec @vec2 ...) -> value or boolean</procedure>
-<procedure>(f32vector-any pred? @vec @vec2 ...) -> value or boolean</procedure>
-<procedure>(f64vector-any pred? @vec @vec2 ...) -> value or boolean</procedure>
-<procedure>(c64vector-any pred? @vec @vec2 ...) -> value or boolean</procedure>
-<procedure>(c128vector-any pred? @vec @vec2 ...) -> value or boolean</procedure>
+<procedure>(u8vector-any pred? @vec @vec2 ...) -> (or value boolean)</procedure>
+<procedure>(s8vector-any pred? @vec @vec2 ...) -> (or value boolean)</procedure>
+<procedure>(u16vector-any pred? @vec @vec2 ...) -> (or value boolean)</procedure>
+<procedure>(s16vector-any pred? @vec @vec2 ...) -> (or value boolean)</procedure>
+<procedure>(u32vector-any pred? @vec @vec2 ...) -> (or value boolean)</procedure>
+<procedure>(s32vector-any pred? @vec @vec2 ...) -> (or value boolean)</procedure>
+<procedure>(u64vector-any pred? @vec @vec2 ...) -> (or value boolean)</procedure>
+<procedure>(s64vector-any pred? @vec @vec2 ...) -> (or value boolean)</procedure>
+<procedure>(f32vector-any pred? @vec @vec2 ...) -> (or value boolean)</procedure>
+<procedure>(f64vector-any pred? @vec @vec2 ...) -> (or value boolean)</procedure>
+<procedure>(c64vector-any pred? @vec @vec2 ...) -> (or value boolean)</procedure>
+<procedure>(c128vector-any pred? @vec @vec2 ...) -> (or value boolean)</procedure>
 
 Returns first non-false result of applying {{pred?}} on a element from the
 {{@vec}}, or {{#f}} if there is no such element. If {{@vec}} is empty, returns
@@ -783,18 +783,18 @@ the end of the shortest one.
 
 [[https://wiki.call-cc.org/eggref/5/srfi-133#searching|SRFI 133]]
 
-<procedure>(u8vector-every pred? @vec @vec2 ...) -> value or boolean</procedure>
-<procedure>(s8vector-every pred? @vec @vec2 ...) -> value or boolean</procedure>
-<procedure>(u16vector-every pred? @vec @vec2 ...) -> value or boolean</procedure>
-<procedure>(s16vector-every pred? @vec @vec2 ...) -> value or boolean</procedure>
-<procedure>(u32vector-every pred? @vec @vec2 ...) -> value or boolean</procedure>
-<procedure>(s32vector-every pred? @vec @vec2 ...) -> value or boolean</procedure>
-<procedure>(u64vector-every pred? @vec @vec2 ...) -> value or boolean</procedure>
-<procedure>(s64vector-every pred? @vec @vec2 ...) -> value or boolean</procedure>
-<procedure>(f32vector-every pred? @vec @vec2 ...) -> value or boolean</procedure>
-<procedure>(f64vector-every pred? @vec @vec2 ...) -> value or boolean</procedure>
-<procedure>(c64vector-every pred? @vec @vec2 ...) -> value or boolean</procedure>
-<procedure>(c128vector-every pred? @vec @vec2 ...) -> value or boolean</procedure>
+<procedure>(u8vector-every pred? @vec @vec2 ...) -> (or value boolean)</procedure>
+<procedure>(s8vector-every pred? @vec @vec2 ...) -> (or value boolean)</procedure>
+<procedure>(u16vector-every pred? @vec @vec2 ...) -> (or value boolean)</procedure>
+<procedure>(s16vector-every pred? @vec @vec2 ...) -> (or value boolean)</procedure>
+<procedure>(u32vector-every pred? @vec @vec2 ...) -> (or value boolean)</procedure>
+<procedure>(s32vector-every pred? @vec @vec2 ...) -> (or value boolean)</procedure>
+<procedure>(u64vector-every pred? @vec @vec2 ...) -> (or value boolean)</procedure>
+<procedure>(s64vector-every pred? @vec @vec2 ...) -> (or value boolean)</procedure>
+<procedure>(f32vector-every pred? @vec @vec2 ...) -> (or value boolean)</procedure>
+<procedure>(f64vector-every pred? @vec @vec2 ...) -> (or value boolean)</procedure>
+<procedure>(c64vector-every pred? @vec @vec2 ...) -> (or value boolean)</procedure>
+<procedure>(c128vector-every pred? @vec @vec2 ...) -> (or value boolean)</procedure>
 
 If all elements from {{@vec}} satisfy {{pred?}}, return the last result of
 {{pred?}}. If not all do, return {{#f}}. If {{@vec}} is empty, return #t
@@ -806,18 +806,18 @@ end of the shortest one.
 
 [[https://wiki.call-cc.org/eggref/5/srfi-133#searching|SRFI 133]]
 
-<procedure>(u8vector-partition pred? @vec) -> @vector and integer</procedure>
-<procedure>(s8vector-partition pred? @vec) -> @vector and integer</procedure>
-<procedure>(u16vector-partition pred? @vec) -> @vector and integer</procedure>
-<procedure>(s16vector-partition pred? @vec) -> @vector and integer</procedure>
-<procedure>(u32vector-partition pred? @vec) -> @vector and integer</procedure>
-<procedure>(s32vector-partition pred? @vec) -> @vector and integer</procedure>
-<procedure>(u64vector-partition pred? @vec) -> @vector and integer</procedure>
-<procedure>(s64vector-partition pred? @vec) -> @vector and integer</procedure>
-<procedure>(f32vector-partition pred? @vec) -> @vector and integer</procedure>
-<procedure>(f64vector-partition pred? @vec) -> @vector and integer</procedure>
-<procedure>(c64vector-partition pred? @vec) -> @vector and integer</procedure>
-<procedure>(c128vector-partition pred? @vec) -> @vector and integer</procedure>
+<procedure>(u8vector-partition pred? @vec) -> @vector integer</procedure>
+<procedure>(s8vector-partition pred? @vec) -> @vector integer</procedure>
+<procedure>(u16vector-partition pred? @vec) -> @vector integer</procedure>
+<procedure>(s16vector-partition pred? @vec) -> @vector integer</procedure>
+<procedure>(u32vector-partition pred? @vec) -> @vector integer</procedure>
+<procedure>(s32vector-partition pred? @vec) -> @vector integer</procedure>
+<procedure>(u64vector-partition pred? @vec) -> @vector integer</procedure>
+<procedure>(s64vector-partition pred? @vec) -> @vector integer</procedure>
+<procedure>(f32vector-partition pred? @vec) -> @vector integer</procedure>
+<procedure>(f64vector-partition pred? @vec) -> @vector integer</procedure>
+<procedure>(c64vector-partition pred? @vec) -> @vector integer</procedure>
+<procedure>(c128vector-partition pred? @vec) -> @vector integer</procedure>
 
 Returns an {{@vector}} of the same type as {{@vec}}, but with all elements
 satisfying {{pred?}} in the leftmost part of the vector and the other elements

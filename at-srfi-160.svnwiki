@@ -121,9 +121,9 @@ is used to specify parameters and return values:
 
 ; {{@vec}}, {{@to}}, {{@from}} : Must be a homogeneous vector, i.e. it must satisfy the predicate {{@vector?}}. In {{@vector-copy!}} and {{reverse-@vector-copy!}}, {{@to}} is the destination and {{@from}} is the source.
 
-; {{i}}, {{j}}, {{start}}, {{at}} : Must be an exact nonnegative integer less than the length of the {{@vector}}. In {{@vector-copy!}} and {{reverse-@vector-copy!}}, at refers to the destination and {{start}} to the source.
+; {{i}}, {{j}}, {{start}}, {{at}} : Must be an exact-nonnegative-integer less than the length of the {{@vector}}. In {{@vector-copy!}} and {{reverse-@vector-copy!}}, at refers to the destination and {{start}} to the source.
 
-; {{end}} : Must be an exact nonnegative integer not less than {{start}} and not greater than the length of the vector. This indicates the index directly before which traversal will stop -- processing will occur until the index of the vector is one less than {{end}}. It is the open right side of a range.
+; {{end}} : Must be an exact-nonnegative-integer not less than {{start}} and not greater than the length of the vector. This indicates the index directly before which traversal will stop -- processing will occur until the index of the vector is one less than {{end}}. It is the open right side of a range.
 
 ; {{f}} : Must be a procedure taking one or more arguments, which returns (except as noted otherwise) exactly one value.
 
@@ -321,7 +321,7 @@ returns may be mutated.
 
 [[https://wiki.call-cc.org/eggref/5/srfi-133#iteration|SRFI 133]]
 
-<procedure>(@vector-count pred? @vec @vec2 ...) -> exact nonnegative integer</procedure>
+<procedure>(@vector-count pred? @vec @vec2 ...) -> exact-nonnegative-integer</procedure>
 
 Call {{pred?}} on each element of {{@vec}} and return the number of calls that
 return true.
@@ -357,8 +357,8 @@ satisfy pred.
 
 [[https://wiki.call-cc.org/eggref/5/srfi-152#searching|SRFI 152]]
 
-<procedure>(@vector-index pred? @vec @vec2 ...) -> exact nonnegative integer or #f</procedure>
-<procedure>(@vector-index-right pred? @vec @vec2 ...) -> exact nonnegative integer or #f </procedure>
+<procedure>(@vector-index pred? @vec @vec2 ...) -> (or exact-nonnegative-integer #f)</procedure>
+<procedure>(@vector-index-right pred? @vec @vec2 ...) -> (or exact-nonnegative-integer #f) </procedure>
 
 Return the index of the first/last element of {{@vec}} that satisfies
 {{pred?}}.
@@ -371,8 +371,8 @@ vectors must be the same for {{@vector-index-right}}.
 
 [[https://wiki.call-cc.org/eggref/5/srfi-133#searching|SRFI 133]]
 
-<procedure>(@vector-skip pred? @vec @vec2 ...) -> exact nonnegative integer or #f</procedure>
-<procedure>(@vector-skip-right pred? @vec @vec2 ...) -> exact nonnegative integer or #f</procedure>
+<procedure>(@vector-skip pred? @vec @vec2 ...) -> (or exact-nonnegative-integer #f)</procedure>
+<procedure>(@vector-skip-right pred? @vec @vec2 ...) -> (or exact-nonnegative-integer #f)</procedure>
 
 Returns the index of the first/last element of {{@vec}} that does not satisfy
 {{pred?}}.
@@ -385,7 +385,7 @@ vectors must be the same for {{@vector-skip-right}}.
 
 [[https://wiki.call-cc.org/eggref/5/srfi-133#searching|SRFI 133]]
 
-<procedure>(@vector-any pred? @vec @vec2 ...) -> value or boolean</procedure>
+<procedure>(@vector-any pred? @vec @vec2 ...) -> (or value boolean)</procedure>
 
 Returns first non-false result of applying {{pred?}} on a element from the
 {{@vec}}, or {{#f}} if there is no such element. If {{@vec}} is empty, returns
@@ -398,7 +398,7 @@ the end of the shortest one.
 
 [[https://wiki.call-cc.org/eggref/5/srfi-133#searching|SRFI 133]]
 
-<procedure>(@vector-every pred? @vec @vec2 ...) -> value or boolean</procedure>
+<procedure>(@vector-every pred? @vec @vec2 ...) -> (or value boolean)</procedure>
 
 If all elements from {{@vec}} satisfy {{pred?}}, return the last result of
 {{pred?}}. If not all do, return {{#f}}. If {{@vec}} is empty, return #t
@@ -410,7 +410,7 @@ end of the shortest one.
 
 [[https://wiki.call-cc.org/eggref/5/srfi-133#searching|SRFI 133]]
 
-<procedure>(@vector-partition pred? @vec) -> @vector and integer</procedure>
+<procedure>(@vector-partition pred? @vec) -> @vector integer</procedure>
 
 Returns an {{@vector}} of the same type as {{@vec}}, but with all elements
 satisfying {{pred?}} in the leftmost part of the vector and the other elements
