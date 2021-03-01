@@ -156,7 +156,7 @@ The procedures shared with SRFI 4 are marked with {{SRFI 4}}. The procedures
 with the same semantics as SRFI 133 are marked with {{SRFI 133}}. The
 procedures analogous to SRFI 152 string procedures are marked with {{SRFI 152}}.
 
-=== Constructors
+==== Constructors
 
 <procedure>(make-@vector size [fill]) -> @vector</procedure>
 
@@ -309,7 +309,7 @@ efficiently.
 
 [[https://wiki.call-cc.org/eggref/5/srfi-133#constructors|SRFI 133]]
 
-=== Predicates
+==== Predicates
 
 <procedure>(u8? obj) -> boolean</procedure>
 <procedure>(s8? obj) -> boolean</procedure>
@@ -379,7 +379,7 @@ Returns {{#f}} unless all {{@vectors}} are the same length.
 
 [[https://wiki.call-cc.org/eggref/5/srfi-133#predicates|SRFI 133]]
 
-=== Selectors
+==== Selectors
 
 <procedure>(u8vector-ref @vec i) -> value</procedure>
 <procedure>(s8vector-ref @vec i) -> value</procedure>
@@ -415,7 +415,7 @@ Returns the length of {{@vec}}
 
 [[https://wiki.call-cc.org/man/5/Module%20srfi-4#length|SRFI 4]]
 
-=== Iteration
+==== Iteration
 
 <procedure>(u8vector-take @vec n) -> @vector</procedure>
 <procedure>(s8vector-take @vec n) -> @vector</procedure>
@@ -625,7 +625,7 @@ than just the final result.
 
 [[https://wiki.call-cc.org/eggref/5/srfi-133#iteration|SRFI 133]]
 
-=== Searching
+==== Searching
 
 <procedure>(u8vector-take-while pred? @vec) -> @vector</procedure>
 <procedure>(s8vector-take-while pred? @vec) -> @vector</procedure>
@@ -858,7 +858,7 @@ satisfy {{pred?}}.
 [[https://wiki.call-cc.org/eggref/5/srfi-152#fold-and-map-and-friends|SRFI 152]]
 
 
-=== Mutators
+==== Mutators
 
 <procedure>(u8vector-set! @vec i value) -> unspecified</procedure>
 <procedure>(s8vector-set! @vec i value) -> unspecified</procedure>
@@ -998,7 +998,7 @@ left.
 
 [[https://wiki.call-cc.org/eggref/5/srfi-133#mutators|SRFI 133]]
 
-=== Conversion
+==== Conversion
 
 <procedure>(u8vector->list @vec [start [end]]) -> proper-list</procedure>
 <procedure>(s8vector->list @vec [start [end]]) -> proper-list</procedure>
@@ -1035,7 +1035,7 @@ the argument, in reverse order where specified.
 [[https://wiki.call-cc.org/man/5/Module%20srfi-4#conversions|SRFI 4]]
 [[https://wiki.call-cc.org/eggref/5/srfi-133#conversion|SRFI 133]]
 
-=== Generators
+==== Generators
 
 <procedure>(make-@vector-generator @vector)</procedure>
 
@@ -1043,14 +1043,14 @@ Returns a [[https://srfi.schemers.org/srfi-121/srfi-121.html][SRFI 121]]
 generator that generates all the values of {{@vector}} in order. Note that the
 generator is finite.
 
-=== Comparators
+==== Comparators
 
 <constant>@vector-comparator</constant>
 
 Variable containing a [[https://srfi.schemers.org/srfi-128/srfi-128.html][SRFI
 128]] comparator whose components provide ordering and hashing of {{@vectors}}.
 
-=== Output
+==== Output
 
 <procedure>(write-@vector @vec [ port ] ) -> unspecified</procedure>
 
