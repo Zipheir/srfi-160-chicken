@@ -131,91 +131,29 @@ specifically.
 In the section containing specifications of procedures, the following notation
 is used to specify parameters and return values:
 
-<procedure>(f arg[1] arg[2] ...) -> something</procedure>
+; {{vec}} : Must be a heterogeneous vector, i.e. it must satisfy the predicate vector?.
 
-A procedure {{f}} that takes the parameters {{arg[1] arg[2] ...}} and returns a
-value of the type something. If two values are returned, two types are
-specified. If something is unspecified, then {{f}} returns a single
-implementation-dependent value; this SRFI does not specify what it returns, and
-in order to write portable code, the return value should be ignored.
+; {{@vec}}, {{@to}}, {{@from}} : Must be a homogeneous vector, i.e. it must satisfy the predicate {{@vector?}}. In {{@vector-copy!}} and {{reverse-@vector-copy!}}, {{@to}} is the destination and {{@from}} is the source.
 
-<parameter>vec</parameter>
+; {{i}}, {{j}}, {{start}}, {{at}} : Must be an exact nonnegative integer less than the length of the {{@vector}}. In {{@vector-copy!}} and {{reverse-@vector-copy!}}, at refers to the destination and {{start}} to the source.
 
-Must be a heterogeneous vector, i.e. it must satisfy the predicate vector?.
+; {{end}} : Must be an exact nonnegative integer not less than {{start}} and not greater than the length of the vector. This indicates the index directly before which traversal will stop -- processing will occur until the index of the vector is one less than {{end}}. It is the open right side of a range.
 
-<parameter>@vec</parameter>
+; {{f}} : Must be a procedure taking one or more arguments, which returns (except as noted otherwise) exactly one value.
 
-<parameter>@to</parameter>
+; {{pred}} : Must be a procedure taking one or more arguments that returns one value, which is treated as a boolean.
 
-<parameter>@from</parameter>
+; {{=}} :  Must be an equivalence procedure.
 
-Must be a homogeneous vector, i.e. it must satisfy the predicate {{@vector?}}.
-In {{@vector-copy!}} and {{reverse-@vector-copy!}}, {{@to}} is the destination
-and {{@from}} is the source.
+; {{obj}}, {{seed}}, {{knil}} : A scheme object.
 
-<parameter>i</parameter>
+; {{fill}}, {{value}} : Any number that is valid with respect to the {{@vec}}.
 
-<parameter>j</parameter>
+; {{[something]}} : An optional argument; it needn't necessarily be applied. Something needn't necessarily be one thing; for example, this usage of it is perfectly valid: {{[start [end]]}} and is indeed used quite often.
 
-<parameter>start</parameter>
+; {{something ...}} : Zero or more somethings are allowed to be arguments.
 
-<parameter>at</parameter>
-
-Must be an exact nonnegative integer less than the length of the {{@vector}}.
-In {{@vector-copy!}} and {{reverse-@vector-copy!}}, at refers to the
-destination and {{start}} to the source.
-
-<parameter>end</parameter>
-
-Must be an exact nonnegative integer not less than {{start}} and not greater
-than the length of the vector. This indicates the index directly before which
-traversal will stop -- processing will occur until the index of the vector is
-one less than {{end}}. It is the open right side of a range.
-
-<parameter>f</parameter>
-
-Must be a procedure taking one or more arguments, which returns (except as
-noted otherwise) exactly one value.
-
-<parameter>pred</parameter>
-
-Must be a procedure taking one or more arguments that returns one value, which
-is treated as a boolean.
-
-<parameter>=</parameter>
-
-Must be an equivalence procedure.
-
-<parameter>obj</parameter>
-
-<parameter>seed</parameter>
-
-<parameter>knil</parameter>
-
-Any Scheme object.
-
-<parameter>fill</parameter>
-
-<parameter>value</parameter>
-
-Any number that is valid with respect to the {{@vec}}.
-
-<parameter>[something]</parameter>
-
-An optional argument; it needn't necessarily be applied. Something needn't
-necessarily be one thing; for example, this usage of it is perfectly valid:
-
- [start [end]]
-
-and is indeed used quite often.
-
-<parameter>something ...</parameter>
-
-Zero or more somethings are allowed to be arguments.
-
-<parameter>something[1] something[2] ...</parameter>
-
-At least one something must be arguments.
+; {{something[1] something[2] ...}} : At least one something must be arguments.
 
 === Packaging
 
