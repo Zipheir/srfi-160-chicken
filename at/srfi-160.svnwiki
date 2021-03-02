@@ -158,7 +158,18 @@ procedures analogous to SRFI 152 string procedures are marked with {{SRFI 152}}.
 
 ==== Constructors
 
-<procedure>(make-@vector size [fill]) -> @vector</procedure>
+<procedure>(make-u8vector size [fill]) -> @vector</procedure>
+<procedure>(make-s8vector size [fill]) -> @vector</procedure>
+<procedure>(make-u16vector size [fill]) -> @vector</procedure>
+<procedure>(make-s16vector size [fill]) -> @vector</procedure>
+<procedure>(make-u32vector size [fill]) -> @vector</procedure>
+<procedure>(make-s32vector size [fill]) -> @vector</procedure>
+<procedure>(make-u64vector size [fill]) -> @vector</procedure>
+<procedure>(make-s64vector size [fill]) -> @vector</procedure>
+<procedure>(make-f32vector size [fill]) -> @vector</procedure>
+<procedure>(make-f64vector size [fill]) -> @vector</procedure>
+<procedure>(make-c64vector size [fill]) -> @vector</procedure>
+<procedure>(make-c128vector size [fill]) -> @vector</procedure>
 
 Returns a {{@vector}} whose length is size. If fill is provided, all the
 elements of the {{@vector}} are initialized to it.
@@ -429,6 +440,11 @@ Returns the length of {{@vec}}
 <procedure>(f64vector-take @vec n) -> @vector</procedure>
 <procedure>(c64vector-take @vec n) -> @vector</procedure>
 <procedure>(c128vector-take @vec n) -> @vector</procedure>
+
+Returns a {{@vector}} containing the first {{n}} elements of {{@vec}}.
+
+[[https://wiki.call-cc.org/eggref/5/srfi-152#selection|SRFI 152]]
+
 <procedure>(u8vector-take-right @vec n) -> @vector</procedure>
 <procedure>(s8vector-take-right @vec n) -> @vector</procedure>
 <procedure>(u16vector-take-right @vec n) -> @vector</procedure>
@@ -442,7 +458,7 @@ Returns the length of {{@vec}}
 <procedure>(c64vector-take-right @vec n) -> @vector</procedure>
 <procedure>(c128vector-take-right @vec n) -> @vector</procedure>
 
-Returns a {{@vector}} containing the first/last {{n}} elements of {{@vec}}.
+Returns a {{@vector}} containing the last {{n}} elements of {{@vec}}.
 
 [[https://wiki.call-cc.org/eggref/5/srfi-152#selection|SRFI 152]]
 
@@ -458,6 +474,12 @@ Returns a {{@vector}} containing the first/last {{n}} elements of {{@vec}}.
 <procedure>(f64vector-drop @vec n) -> @vector</procedure>
 <procedure>(c64vector-drop @vec n) -> @vector</procedure>
 <procedure>(c128vector-drop @vec n) -> @vector</procedure>
+
+Returns a {{@vector}} containing all except the first {{n}} elements of
+{{@vec}}.
+
+[[https://wiki.call-cc.org/eggref/5/srfi-152#selection|SRFI 152]]
+
 <procedure>(u8vector-drop-right @vec n) -> @vector</procedure>
 <procedure>(s8vector-drop-right @vec n) -> @vector</procedure>
 <procedure>(u16vector-drop-right @vec n) -> @vector</procedure>
@@ -471,7 +493,7 @@ Returns a {{@vector}} containing the first/last {{n}} elements of {{@vec}}.
 <procedure>(c64vector-drop-right @vec n) -> @vector</procedure>
 <procedure>(c128vector-drop-right @vec n) -> @vector</procedure>
 
-Returns a {{@vector}} containing all except the first/last {{n}} elements of
+Returns a {{@vector}} containing all except the last {{n}} elements of
 {{@vec}}.
 
 [[https://wiki.call-cc.org/eggref/5/srfi-152#selection|SRFI 152]]
@@ -506,6 +528,20 @@ of {{@vec}}. The last {{@vector}} may be shorter than {{n}}.
 <procedure>(f64vector-fold kons knil @vec @vec2 ...) -> object</procedure>
 <procedure>(c64vector-fold kons knil @vec @vec2 ...) -> object</procedure>
 <procedure>(c128vector-fold kons knil @vec @vec2 ...) -> object</procedure>
+
+When one {{@vector}} argument {{@vec}} is given, folds {{kons}} over the
+elements of {{@vec}} in increasing order using {{knil}} as the initial value.
+The {{kons}} procedure is called with the state first and the element second,
+as in SRFIs 43 and 133 (heterogeneous vectors). This is the opposite order to
+that used in SRFI 1 (lists) and the various string SRFIs.
+
+When multiple {{@vector}} arguments are given, {{kons}} is called with the
+current state value and each value from all the vectors; {{@vector-fold}} scans
+elements from left to right. If the lengths of vectors differ, only the portion
+of each vector up to the length of the shortest vector is scanned.
+
+[[https://wiki.call-cc.org/eggref/5/srfi-133#iteration|SRFI 133]]
+
 <procedure>(u8vector-fold-right kons knil @vec @vec2 ...) -> object</procedure>
 <procedure>(s8vector-fold-right kons knil @vec @vec2 ...) -> object</procedure>
 <procedure>(u16vector-fold-right kons knil @vec @vec2 ...) -> object</procedure>
@@ -520,16 +556,15 @@ of {{@vec}}. The last {{@vector}} may be shorter than {{n}}.
 <procedure>(c128vector-fold-right kons knil @vec @vec2 ...) -> object</procedure>
 
 When one {{@vector}} argument {{@vec}} is given, folds {{kons}} over the
-elements of {{@vec}} in increasing/decreasing order using {{knil}} as the
-initial value. The {{kons}} procedure is called with the state first and the
-element second, as in SRFIs 43 and 133 (heterogeneous vectors). This is the
-opposite order to that used in SRFI 1 (lists) and the various string SRFIs.
+elements of {{@vec}} in decreasing order using {{knil}} as the initial value.
+The {{kons}} procedure is called with the state first and the element second,
+as in SRFIs 43 and 133 (heterogeneous vectors). This is the opposite order to
+that used in SRFI 1 (lists) and the various string SRFIs.
 
 When multiple {{@vector}} arguments are given, {{kons}} is called with the
-current state value and each value from all the vectors; {{@vector-fold}} scans
-elements from left to right, while {{@vector-fold-right}} does from right to
-left. If the lengths of vectors differ, only the portion of each vector up to
-the length of the shortest vector is scanned.
+current state value and each value from all the vectors; {{@vector-fold-right}}
+scans elements from right to left. If the lengths of vectors differ, only the
+portion of each vector up to the length of the shortest vector is scanned.
 
 [[https://wiki.call-cc.org/eggref/5/srfi-133#iteration|SRFI 133]]
 
@@ -545,6 +580,20 @@ the length of the shortest vector is scanned.
 <procedure>(f64vector-map f @vec @vec2 ...) -> @vector</procedure>
 <procedure>(c64vector-map f @vec @vec2 ...) -> @vector</procedure>
 <procedure>(c128vector-map f @vec @vec2 ...) -> @vector</procedure>
+
+Iterate over the elements of {{@vec}} and apply {{f}} to each, returning a
+{{@vector}} of the results.
+
+If more than one vector is passed, {{f}} gets one element from each vector as
+arguments. If the lengths of the vectors differ, iteration stops at the end of
+the shortest vector.
+
+If {{@vector-map}} returns more than once (i.e. because of a continuation
+captured by {{f}}), the values returned or stored by earlier returns may be
+mutated.
+
+[[https://wiki.call-cc.org/eggref/5/srfi-133#iteration|SRFI 133]]
+
 <procedure>(u8vector-map! f @vec @vec2 ...) -> unspecified</procedure>
 <procedure>(s8vector-map! f @vec @vec2 ...) -> unspecified</procedure>
 <procedure>(u16vector-map! f @vec @vec2 ...) -> unspecified</procedure>
@@ -557,6 +606,21 @@ the length of the shortest vector is scanned.
 <procedure>(f64vector-map! f @vec @vec2 ...) -> unspecified</procedure>
 <procedure>(c64vector-map! f @vec @vec2 ...) -> unspecified</procedure>
 <procedure>(c128vector-map! f @vec @vec2 ...) -> unspecified</procedure>
+
+Iterate over the elements of {{@vec}} and apply {{f}} to each, returning an
+undefined value with the results placed back in {{@vec}}.
+
+If more than one vector is passed, {{f}} gets one element from each vector as
+arguments. If the lengths of the vectors differ, iteration stops at the end of
+the shortest vector. Only {{@vec}} is modified even when multiple vectors are
+passed.
+
+If {{@vector-map!}} returns more than once (i.e. because of a continuation
+captured by {{f}}), the values returned or stored by earlier returns may be
+mutated.
+
+[[https://wiki.call-cc.org/eggref/5/srfi-133#iteration|SRFI 133]]
+
 <procedure>(u8vector-for-each f @vec @vec2 ...) -> unspecified</procedure>
 <procedure>(s8vector-for-each f @vec @vec2 ...) -> unspecified</procedure>
 <procedure>(u16vector-for-each f @vec @vec2 ...) -> unspecified</procedure>
@@ -570,18 +634,12 @@ the length of the shortest vector is scanned.
 <procedure>(c64vector-for-each f @vec @vec2 ...) -> unspecified</procedure>
 <procedure>(c128vector-for-each f @vec @vec2 ...) -> unspecified</procedure>
 
-Iterate over the elements of {{@vec}} and apply {{f}} to each, returning
-respectively a {{@vector}} of the results, an undefined value with the results
-placed back in {{@vec}}, and an undefined value with no change to {{@vec}}.
+Iterate over the elements of {{@vec}} and apply {{f}} to each, returning an
+undefined value with no change to the passed {{@vec}}s.
 
 If more than one vector is passed, {{f}} gets one element from each vector as
 arguments. If the lengths of the vectors differ, iteration stops at the end of
-the shortest vector. For {{@vector-map!}}, only {{@vec}} is modified even when
-multiple vectors are passed.
-
-If {{@vector-map}} or {{@vector-map!}} returns more than once (i.e. because of
-a continuation captured by {{f}}), the values returned or stored by earlier
-returns may be mutated.
+the shortest vector.
 
 [[https://wiki.call-cc.org/eggref/5/srfi-133#iteration|SRFI 133]]
 
@@ -639,6 +697,12 @@ than just the final result.
 <procedure>(f64vector-take-while pred? @vec) -> @vector</procedure>
 <procedure>(c64vector-take-while pred? @vec) -> @vector</procedure>
 <procedure>(c128vector-take-while pred? @vec) -> @vector</procedure>
+
+Return the shortest prefix of {{@vec}} all of whose elements satisfy
+{{pred?}}.
+
+[[https://wiki.call-cc.org/eggref/5/srfi-152#searching|SRFI 152]]
+
 <procedure>(u8vector-take-while-right pred? @vec) -> @vector</procedure>
 <procedure>(s8vector-take-while-right pred? @vec) -> @vector</procedure>
 <procedure>(u16vector-take-while-right pred? @vec) -> @vector</procedure>
@@ -652,7 +716,7 @@ than just the final result.
 <procedure>(c64vector-take-while-right pred? @vec) -> @vector</procedure>
 <procedure>(c128vector-take-while-right pred? @vec) -> @vector</procedure>
 
-Return the shortest prefix/suffix of {{@vec}} all of whose elements satisfy
+Return the shortest suffix of {{@vec}} all of whose elements satisfy
 {{pred?}}.
 
 [[https://wiki.call-cc.org/eggref/5/srfi-152#searching|SRFI 152]]
@@ -669,6 +733,12 @@ Return the shortest prefix/suffix of {{@vec}} all of whose elements satisfy
 <procedure>(f64vector-drop-while pred? @vec) -> @vector</procedure>
 <procedure>(c64vector-drop-while pred? @vec) -> @vector</procedure>
 <procedure>(c128vector-drop-while pred? @vec) -> @vector</procedure>
+
+Drops the longest initial prefix of {{@vec}} such that all its elements
+satisfy pred.
+
+[[https://wiki.call-cc.org/eggref/5/srfi-152#searching|SRFI 152]]
+
 <procedure>(u8vector-drop-while-right pred? @vec) -> @vector</procedure>
 <procedure>(s8vector-drop-while-right pred? @vec) -> @vector</procedure>
 <procedure>(u16vector-drop-while-right pred? @vec) -> @vector</procedure>
@@ -682,7 +752,7 @@ Return the shortest prefix/suffix of {{@vec}} all of whose elements satisfy
 <procedure>(c64vector-drop-while-right pred? @vec) -> @vector</procedure>
 <procedure>(c128vector-drop-while-right pred? @vec) -> @vector</procedure>
 
-Drops the longest initial prefix/suffix of {{@vec}} such that all its elements
+Drops the longest initial suffix of {{@vec}} such that all its elements
 satisfy pred.
 
 [[https://wiki.call-cc.org/eggref/5/srfi-152#searching|SRFI 152]]
@@ -699,6 +769,16 @@ satisfy pred.
 <procedure>(f64vector-index pred? @vec @vec2 ...) -> (or exact-nonnegative-integer #f)</procedure>
 <procedure>(c64vector-index pred? @vec @vec2 ...) -> (or exact-nonnegative-integer #f)</procedure>
 <procedure>(c128vector-index pred? @vec @vec2 ...) -> (or exact-nonnegative-integer #f)</procedure>
+
+Return the index of the first element of {{@vec}} that satisfies {{pred?}}.
+
+When multiple vectors are passed, {{pred?}} must take the same number of
+arguments as the number of vectors, and corresponding elements from each vector
+are passed for each iteration. If the lengths of vectors differ, iteration
+stops at the end of the shortest one.
+
+[[https://wiki.call-cc.org/eggref/5/srfi-133#searching|SRFI 133]]
+
 <procedure>(u8vector-index-right pred? @vec @vec2 ...) -> (or exact-nonnegative-integer #f) </procedure>
 <procedure>(s8vector-index-right pred? @vec @vec2 ...) -> (or exact-nonnegative-integer #f) </procedure>
 <procedure>(u16vector-index-right pred? @vec @vec2 ...) -> (or exact-nonnegative-integer #f) </procedure>
@@ -712,14 +792,11 @@ satisfy pred.
 <procedure>(c64vector-index-right pred? @vec @vec2 ...) -> (or exact-nonnegative-integer #f) </procedure>
 <procedure>(c128vector-index-right pred? @vec @vec2 ...) -> (or exact-nonnegative-integer #f) </procedure>
 
-Return the index of the first/last element of {{@vec}} that satisfies
-{{pred?}}.
+Return the index of the last element of {{@vec}} that satisfies {{pred?}}.
 
 When multiple vectors are passed, {{pred?}} must take the same number of
 arguments as the number of vectors, and corresponding elements from each vector
-are passed for each iteration. If the lengths of vectors differ,
-{{@vector-index}} stops iteration at the end of the shortest one. Lengths of
-vectors must be the same for {{@vector-index-right}}.
+are passed for each iteration. Lengths of vectors must be the same.
 
 [[https://wiki.call-cc.org/eggref/5/srfi-133#searching|SRFI 133]]
 
@@ -735,6 +812,17 @@ vectors must be the same for {{@vector-index-right}}.
 <procedure>(f64vector-skip pred? @vec @vec2 ...) -> (or exact-nonnegative-integer #f)</procedure>
 <procedure>(c64vector-skip pred? @vec @vec2 ...) -> (or exact-nonnegative-integer #f)</procedure>
 <procedure>(c128vector-skip pred? @vec @vec2 ...) -> (or exact-nonnegative-integer #f)</procedure>
+
+Returns the index of the first element of {{@vec}} that does not satisfy
+{{pred?}}.
+
+When multiple vectors are passed, {{pred?}} must take the same number of
+arguments as the number of vectors, and corresponding elements from each vector
+are passed for each iteration. If the lengths of vectors differ, iteration
+stops at the end of the shortest one.
+
+[[https://wiki.call-cc.org/eggref/5/srfi-133#searching|SRFI 133]]
+
 <procedure>(u8vector-skip-right pred? @vec @vec2 ...) -> (or exact-nonnegative-integer #f)</procedure>
 <procedure>(s8vector-skip-right pred? @vec @vec2 ...) -> (or exact-nonnegative-integer #f)</procedure>
 <procedure>(u16vector-skip-right pred? @vec @vec2 ...) -> (or exact-nonnegative-integer #f)</procedure>
@@ -748,14 +836,12 @@ vectors must be the same for {{@vector-index-right}}.
 <procedure>(c64vector-skip-right pred? @vec @vec2 ...) -> (or exact-nonnegative-integer #f)</procedure>
 <procedure>(c128vector-skip-right pred? @vec @vec2 ...) -> (or exact-nonnegative-integer #f)</procedure>
 
-Returns the index of the first/last element of {{@vec}} that does not satisfy
+Returns the index of the last element of {{@vec}} that does not satisfy
 {{pred?}}.
 
 When multiple vectors are passed, {{pred?}} must take the same number of
 arguments as the number of vectors, and corresponding elements from each vector
-are passed for each iteration. If the lengths of vectors differ,
-{{@vector-skip}} stops iteration at the end of the shortest one. Lengths of
-vectors must be the same for {{@vector-skip-right}}.
+are passed for each iteration. Lengths of vectors must be the same.
 
 [[https://wiki.call-cc.org/eggref/5/srfi-133#searching|SRFI 133]]
 
@@ -839,6 +925,12 @@ two values, the new {{@vector}} and the number of elements satisfying
 <procedure>(f64vector-filter pred? @vec) -> @vector</procedure>
 <procedure>(c64vector-filter pred? @vec) -> @vector</procedure>
 <procedure>(c128vector-filter pred? @vec) -> @vector</procedure>
+
+Return an {{@vector}} containing the elements of {{@vec}} that satisfy
+{{pred?}}.
+
+[[https://wiki.call-cc.org/eggref/5/srfi-152#fold-and-map-and-friends|SRFI 152]]
+
 <procedure>(u8vector-remove pred? @vec) -> @vector</procedure>
 <procedure>(s8vector-remove pred? @vec) -> @vector</procedure>
 <procedure>(u16vector-remove pred? @vec) -> @vector</procedure>
@@ -852,8 +944,8 @@ two values, the new {{@vector}} and the number of elements satisfying
 <procedure>(c64vector-remove pred? @vec) -> @vector</procedure>
 <procedure>(c128vector-remove pred? @vec) -> @vector</procedure>
 
-Return an {{@vector}} containing the elements of {{@vec}} that satisfy / do not
-satisfy {{pred?}}.
+Return an {{@vector}} containing the elements of {{@vec}} that do not satisfy
+{{pred?}}.
 
 [[https://wiki.call-cc.org/eggref/5/srfi-152#fold-and-map-and-friends|SRFI 152]]
 
@@ -1012,9 +1104,29 @@ left.
 <procedure>(f64vector->list @vec [start [end]]) -> proper-list</procedure>
 <procedure>(c64vector->list @vec [start [end]]) -> proper-list</procedure>
 <procedure>(c128vector->list @vec [start [end]]) -> proper-list</procedure>
+
+Returns a list, with the same elements as the argument.
+
+[[https://wiki.call-cc.org/man/5/Module%20srfi-4#conversions|SRFI 4]]
+
 <procedure>(reverse-@vector->list @vec [start [end]]) -> proper-list</procedure>
+
+Returns a list, with the same elements as the argument in reverse order.
+
+[[https://wiki.call-cc.org/eggref/5/srfi-133#conversion|SRFI 133]]
+
 <procedure>(list->@vector proper-list) -> @vector</procedure>
+
+Returns an {{@vector}} with the same elements as the argument.
+
+[[https://wiki.call-cc.org/man/5/Module%20srfi-4#conversions|SRFI 4]]
+
 <procedure>(reverse-list->@vector proper-list) -> @vector</procedure>
+
+Returns an {{@vector}} with the same elements as the argument in reverse order.
+
+[[https://wiki.call-cc.org/eggref/5/srfi-133#conversion|SRFI 133]]
+
 <procedure>(u8vector->vector @vec [start [end]]) -> vector</procedure>
 <procedure>(s8vector->vector @vec [start [end]]) -> vector</procedure>
 <procedure>(u16vector->vector @vec [start [end]]) -> vector</procedure>
@@ -1027,13 +1139,12 @@ left.
 <procedure>(f64vector->vector @vec [start [end]]) -> vector</procedure>
 <procedure>(c64vector->vector @vec [start [end]]) -> vector</procedure>
 <procedure>(c128vector->vector @vec [start [end]]) -> vector</procedure>
+
+Returns a heterogeneous vector with the same elements as the argument.
+
 <procedure>(vector->@vector vec [start [end]]) -> @vector</procedure>
 
-Returns a list, {{@vector}}, or heterogeneous vector with the same elements as
-the argument, in reverse order where specified.
-
-[[https://wiki.call-cc.org/man/5/Module%20srfi-4#conversions|SRFI 4]]
-[[https://wiki.call-cc.org/eggref/5/srfi-133#conversion|SRFI 133]]
+Returns an {{@vector}} with the same elements as the argument.
 
 ==== Generators
 
