@@ -1109,19 +1109,52 @@ Returns a list, with the same elements as the argument.
 
 [[https://wiki.call-cc.org/man/5/Module%20srfi-4#conversions|SRFI 4]]
 
-<procedure>(reverse-@vector->list @vec [start [end]]) -> proper-list</procedure>
+<procedure>(reverse-u8vector->list @vec [start [end]]) -> proper-list</procedure>
+<procedure>(reverse-s8vector->list @vec [start [end]]) -> proper-list</procedure>
+<procedure>(reverse-u16vector->list @vec [start [end]]) -> proper-list</procedure>
+<procedure>(reverse-s16vector->list @vec [start [end]]) -> proper-list</procedure>
+<procedure>(reverse-u32vector->list @vec [start [end]]) -> proper-list</procedure>
+<procedure>(reverse-s32vector->list @vec [start [end]]) -> proper-list</procedure>
+<procedure>(reverse-u64vector->list @vec [start [end]]) -> proper-list</procedure>
+<procedure>(reverse-s64vector->list @vec [start [end]]) -> proper-list</procedure>
+<procedure>(reverse-f32vector->list @vec [start [end]]) -> proper-list</procedure>
+<procedure>(reverse-f64vector->list @vec [start [end]]) -> proper-list</procedure>
+<procedure>(reverse-c64vector->list @vec [start [end]]) -> proper-list</procedure>
+<procedure>(reverse-c128vector->list @vec [start [end]]) -> proper-list</procedure>
 
 Returns a list, with the same elements as the argument in reverse order.
 
 [[https://wiki.call-cc.org/eggref/5/srfi-133#conversion|SRFI 133]]
 
-<procedure>(list->@vector proper-list) -> @vector</procedure>
+<procedure>(list->u8vector proper-list) -> @vector</procedure>
+<procedure>(list->s8vector proper-list) -> @vector</procedure>
+<procedure>(list->u16vector proper-list) -> @vector</procedure>
+<procedure>(list->s16vector proper-list) -> @vector</procedure>
+<procedure>(list->u32vector proper-list) -> @vector</procedure>
+<procedure>(list->s32vector proper-list) -> @vector</procedure>
+<procedure>(list->u64vector proper-list) -> @vector</procedure>
+<procedure>(list->s64vector proper-list) -> @vector</procedure>
+<procedure>(list->f32vector proper-list) -> @vector</procedure>
+<procedure>(list->f64vector proper-list) -> @vector</procedure>
+<procedure>(list->c64vector proper-list) -> @vector</procedure>
+<procedure>(list->c128vector proper-list) -> @vector</procedure>
 
 Returns an {{@vector}} with the same elements as the argument.
 
 [[https://wiki.call-cc.org/man/5/Module%20srfi-4#conversions|SRFI 4]]
 
-<procedure>(reverse-list->@vector proper-list) -> @vector</procedure>
+<procedure>(reverse-list->u8vector proper-list) -> @vector</procedure>
+<procedure>(reverse-list->s8vector proper-list) -> @vector</procedure>
+<procedure>(reverse-list->u16vector proper-list) -> @vector</procedure>
+<procedure>(reverse-list->s16vector proper-list) -> @vector</procedure>
+<procedure>(reverse-list->u32vector proper-list) -> @vector</procedure>
+<procedure>(reverse-list->s32vector proper-list) -> @vector</procedure>
+<procedure>(reverse-list->u64vector proper-list) -> @vector</procedure>
+<procedure>(reverse-list->s64vector proper-list) -> @vector</procedure>
+<procedure>(reverse-list->f32vector proper-list) -> @vector</procedure>
+<procedure>(reverse-list->f64vector proper-list) -> @vector</procedure>
+<procedure>(reverse-list->c64vector proper-list) -> @vector</procedure>
+<procedure>(reverse-list->c128vector proper-list) -> @vector</procedure>
 
 Returns an {{@vector}} with the same elements as the argument in reverse order.
 
@@ -1142,13 +1175,35 @@ Returns an {{@vector}} with the same elements as the argument in reverse order.
 
 Returns a heterogeneous vector with the same elements as the argument.
 
-<procedure>(vector->@vector vec [start [end]]) -> @vector</procedure>
+<procedure>(vector->u8vector vec [start [end]]) -> @vector</procedure>
+<procedure>(vector->s8vector vec [start [end]]) -> @vector</procedure>
+<procedure>(vector->u16vector vec [start [end]]) -> @vector</procedure>
+<procedure>(vector->s16vector vec [start [end]]) -> @vector</procedure>
+<procedure>(vector->u32vector vec [start [end]]) -> @vector</procedure>
+<procedure>(vector->s32vector vec [start [end]]) -> @vector</procedure>
+<procedure>(vector->u64vector vec [start [end]]) -> @vector</procedure>
+<procedure>(vector->s64vector vec [start [end]]) -> @vector</procedure>
+<procedure>(vector->f32vector vec [start [end]]) -> @vector</procedure>
+<procedure>(vector->f64vector vec [start [end]]) -> @vector</procedure>
+<procedure>(vector->c64vector vec [start [end]]) -> @vector</procedure>
+<procedure>(vector->c128vector vec [start [end]]) -> @vector</procedure>
 
 Returns an {{@vector}} with the same elements as the argument.
 
 ==== Generators
 
-<procedure>(make-@vector-generator @vector)</procedure>
+<procedure>(make-u8vector-generator @vector)</procedure>
+<procedure>(make-s8vector-generator @vector)</procedure>
+<procedure>(make-u16vector-generator @vector)</procedure>
+<procedure>(make-s16vector-generator @vector)</procedure>
+<procedure>(make-u32vector-generator @vector)</procedure>
+<procedure>(make-s32vector-generator @vector)</procedure>
+<procedure>(make-u64vector-generator @vector)</procedure>
+<procedure>(make-s64vector-generator @vector)</procedure>
+<procedure>(make-f32vector-generator @vector)</procedure>
+<procedure>(make-f64vector-generator @vector)</procedure>
+<procedure>(make-c64vector-generator @vector)</procedure>
+<procedure>(make-c128vector-generator @vector)</procedure>
 
 Returns a [[https://srfi.schemers.org/srfi-121/srfi-121.html][SRFI 121]]
 generator that generates all the values of {{@vector}} in order. Note that the
@@ -1156,14 +1211,36 @@ generator is finite.
 
 ==== Comparators
 
-<constant>@vector-comparator</constant>
+<constant>u8vector-comparator</constant>
+<constant>s8vector-comparator</constant>
+<constant>u16vector-comparator</constant>
+<constant>s16vector-comparator</constant>
+<constant>u32vector-comparator</constant>
+<constant>s32vector-comparator</constant>
+<constant>u64vector-comparator</constant>
+<constant>s64vector-comparator</constant>
+<constant>f32vector-comparator</constant>
+<constant>f64vector-comparator</constant>
+<constant>c64vector-comparator</constant>
+<constant>c128vector-comparator</constant>
 
 Variable containing a [[https://srfi.schemers.org/srfi-128/srfi-128.html][SRFI
 128]] comparator whose components provide ordering and hashing of {{@vectors}}.
 
 ==== Output
 
-<procedure>(write-@vector @vec [ port ] ) -> unspecified</procedure>
+<procedure>(write-u8vector @vec [ port ] ) -> unspecified</procedure>
+<procedure>(write-s8vector @vec [ port ] ) -> unspecified</procedure>
+<procedure>(write-u16vector @vec [ port ] ) -> unspecified</procedure>
+<procedure>(write-s16vector @vec [ port ] ) -> unspecified</procedure>
+<procedure>(write-u32vector @vec [ port ] ) -> unspecified</procedure>
+<procedure>(write-s32vector @vec [ port ] ) -> unspecified</procedure>
+<procedure>(write-u64vector @vec [ port ] ) -> unspecified</procedure>
+<procedure>(write-s64vector @vec [ port ] ) -> unspecified</procedure>
+<procedure>(write-f32vector @vec [ port ] ) -> unspecified</procedure>
+<procedure>(write-f64vector @vec [ port ] ) -> unspecified</procedure>
+<procedure>(write-c64vector @vec [ port ] ) -> unspecified</procedure>
+<procedure>(write-c128vector @vec [ port ] ) -> unspecified</procedure>
 
 Prints to port (the current output port by default) a representation of
 {{@vec}} in the lexical syntax explained below.

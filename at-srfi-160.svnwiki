@@ -158,18 +158,7 @@ procedures analogous to SRFI 152 string procedures are marked with {{SRFI 152}}.
 
 ==== Constructors
 
-<procedure>(make-u8vector size [fill]) -> @vector</procedure>
-<procedure>(make-s8vector size [fill]) -> @vector</procedure>
-<procedure>(make-u16vector size [fill]) -> @vector</procedure>
-<procedure>(make-s16vector size [fill]) -> @vector</procedure>
-<procedure>(make-u32vector size [fill]) -> @vector</procedure>
-<procedure>(make-s32vector size [fill]) -> @vector</procedure>
-<procedure>(make-u64vector size [fill]) -> @vector</procedure>
-<procedure>(make-s64vector size [fill]) -> @vector</procedure>
-<procedure>(make-f32vector size [fill]) -> @vector</procedure>
-<procedure>(make-f64vector size [fill]) -> @vector</procedure>
-<procedure>(make-c64vector size [fill]) -> @vector</procedure>
-<procedure>(make-c128vector size [fill]) -> @vector</procedure>
+<procedure>(make-@vector size [fill]) -> @vector</procedure>
 
 Returns a {{@vector}} whose length is size. If fill is provided, all the
 elements of the {{@vector}} are initialized to it.
