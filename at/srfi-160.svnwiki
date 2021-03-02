@@ -1205,7 +1205,7 @@ Returns an {{@vector}} with the same elements as the argument.
 <procedure>(make-c64vector-generator @vector)</procedure>
 <procedure>(make-c128vector-generator @vector)</procedure>
 
-Returns a [[https://srfi.schemers.org/srfi-121/srfi-121.html][SRFI 121]]
+Returns a [[https://srfi.schemers.org/srfi-121/srfi-121.html|SRFI 121]]
 generator that generates all the values of {{@vector}} in order. Note that the
 generator is finite.
 
@@ -1224,7 +1224,7 @@ generator is finite.
 <constant>c64vector-comparator</constant>
 <constant>c128vector-comparator</constant>
 
-Variable containing a [[https://srfi.schemers.org/srfi-128/srfi-128.html][SRFI
+Variable containing a [[https://srfi.schemers.org/srfi-128/srfi-128.html|SRFI
 128]] comparator whose components provide ordering and hashing of {{@vectors}}.
 
 ==== Output
