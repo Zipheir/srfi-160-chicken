@@ -98,6 +98,24 @@ for a float vector, it must be an inexact real number; and for a complex
 vector, it must be an inexact complex number. It is an error to try to use a
 constructor or mutator to set an element to an invalid value.
 
+=== Additions to the specification
+
+The CHICKEN implementation adds a couple of features to the SRFI specification.
+It prints {{c64vector}} and {{c128vector}} as {{#!c64(...)}} and
+{{#!c128(...)}}, respectively, with the appropriate sharp-read-syntax
+{{'#!c64(...)}} and {{'#!c128(...)}}.
+
+It also exports the following two procedures for access to the underlying
+srfi-4 vectors that make up the body of complex vectors:
+
+<procedure>(c128vector-body c128vec)</procedure>
+
+Returns the {{f64vector}} body of {{c128vec}}.
+
+<procedure>(c64vector-body c64vec)</procedure>
+
+Returns the {{f32vector}} body of {{c64vec}}.
+
 === Notation
 
 So as not to multiply the number of procedures described in this SRFI beyond
