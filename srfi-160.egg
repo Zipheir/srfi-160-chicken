@@ -3,7 +3,6 @@
 ((author "John Cowan, Shiro Kawai")
  (maintainer "Diego A. Mundo")
  (synopsis "SRFI 160: Homogeneous numeric vector libraries")
- (version "0.4")
  (category lang-exts)
  (dependencies srfi-128)
  (test-dependencies test srfi-128 srfi-133)
