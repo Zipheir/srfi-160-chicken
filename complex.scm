@@ -3,12 +3,14 @@
 ;;; Main constructor
 
 (define (make-c64vector len . maybe-fill)
+  (assert (fixnum? len) 'make-c64vector "bad argument type - not a fixnum" len)
   (define vec (raw-make-c64vector (make-f32vector (fx* len 2))))
   (if (not (null? maybe-fill))
     (c64vector-simple-fill! vec (car maybe-fill)))
   vec)
 
 (define (make-c128vector len . maybe-fill)
+  (assert (fixnum? len) 'make-c128vector "bad argument type - not a fixnum" len)
   (define vec (raw-make-c128vector (make-f64vector (fx* len 2))))
   (if (not (null? maybe-fill))
     (c128vector-simple-fill! vec (car maybe-fill)))

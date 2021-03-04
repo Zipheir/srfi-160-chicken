@@ -1,10 +1,13 @@
 (module (srfi 160 base) ()
   (import (scheme))
-  (import (only (chicken base) include define-record-type case-lambda))
+  (import (only (chicken base)
+                include define-record-type case-lambda record-printer
+                fixnum? assert))
   (import (only (chicken module) export))
   (import (only (chicken bitwise) bitwise-and bitwise-ior
                            bitwise-not arithmetic-shift))
-  (import chicken.fixnum)
+  (import (only (chicken read-syntax) set-sharp-read-syntax!))
+  (import (chicken fixnum))
 
   ;; SRFI 4 versions of @vector->list don't accept start/end args
   (import (except (srfi 4)
