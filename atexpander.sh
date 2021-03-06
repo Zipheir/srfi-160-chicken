@@ -1,6 +1,8 @@
 #!/bin/zsh
 # Expand library, implementation and test files
 
+mkdir -p at
+
 < tests/base-tests.scm > tests/run.scm
 
 for at bytes in u8 1 s8 1 u16 2 s16 2 u32 4 s32 4 u64 8 s64 8 f32 4 f64 8 c64 8 c128 16; do
