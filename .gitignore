@@ -20,4 +20,3 @@ srfi/4.sld
 *.so
 *.swp
 *.types
-/at/
