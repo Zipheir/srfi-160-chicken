@@ -692,6 +692,7 @@ many procedures from one {{@vector}} to many.
 
 === Version history
 
+; 0.5.2 : Build enhancements
 ; 0.5.1 : Add a record printer/reader, handle non-fixnum length passed to {{make-c*vector}}
 ; 0.5 : Optimize performance using fixnum operations and move-memory!, export {{c*vector-body}}
 ; 0.4 : Fix bugs in {{@vector-fold-right}} and {{@vector-reverse!}}

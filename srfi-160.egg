@@ -7,6 +7,8 @@
  (dependencies srfi-128)
  (test-dependencies test srfi-128 srfi-133)
  (license "MIT")
+ (component-options
+  (csc-options -O3))
  (components
   (generated-source-file at-files
                          (custom-build "atexpander.sh")
